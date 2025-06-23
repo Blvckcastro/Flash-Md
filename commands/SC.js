@@ -1,44 +1,57 @@
+const { franceking } = require('../main');
+const axios = require('axios');
 
+module.exports = {
+    name: 'repo',
+    get flashOnly() {
+  return franceking();
+},
+    aliases: ['sc', 'script'],
+    description: 'Sends the official GitHub repository and stats for FLASH-MD-V2 WhatsApp bot',
+    execute: async (sock, msg) => {
+        const chatId = msg.key.remoteJid;
+        const githubRepoUrl = 'https://api.github.com/repos/franceking1/Flash-Md-V2';
 
+        try {
+            const response = await axios.get(githubRepoUrl);
+            const data = response.data;
 
+            const stars = data.stargazers_count.toLocaleString();
+            const forks = data.forks_count.toLocaleString();
+            const createdAt = new Date(data.created_at).toLocaleDateString('en-GB');
+            const lastUpdated = new Date(data.pushed_at).toLocaleDateString('en-GB');
 
+            const repoInfo = `*🤖 FLASH-MD-V2*
 
+A powerful, open-source WhatsApp bot built for speed, reliability, and ease of use. Designed to deliver blazing-fast responses and rich features for groups and individuals.
 
+*📂 GitHub Repository:*
+https://github.com/franceking1/Flash-Md-V2
 
+*⭐ Stars:* ${stars}
+*🍴 Forks:* ${forks}
+*📅 Created:* ${createdAt}
+*♻️ Last Updated:* ${lastUpdated}
 
+_Star ⭐ the repository if you like the bot and want to support future development!_`;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'use strict';const _0x38779b=_0x1296;function _0x1296(_0x160210,_0x323bd5){const _0x26a28f=_0x26a2();return _0x1296=function(_0x1296d4,_0xe177f3){_0x1296d4=_0x1296d4-0x90;let _0x1e2007=_0x26a28f[_0x1296d4];return _0x1e2007;},_0x1296(_0x160210,_0x323bd5);}(function(_0x59ecfc,_0x3aef0a){const _0x4cf262=_0x1296,_0x54d9e8=_0x59ecfc();while(!![]){try{const _0x539d07=parseInt(_0x4cf262(0x94))/0x1*(-parseInt(_0x4cf262(0xa0))/0x2)+-parseInt(_0x4cf262(0x90))/0x3+parseInt(_0x4cf262(0x9b))/0x4+-parseInt(_0x4cf262(0xa1))/0x5*(-parseInt(_0x4cf262(0xa6))/0x6)+parseInt(_0x4cf262(0x9c))/0x7+parseInt(_0x4cf262(0x91))/0x8*(-parseInt(_0x4cf262(0xa5))/0x9)+parseInt(_0x4cf262(0x9d))/0xa;if(_0x539d07===_0x3aef0a)break;else _0x54d9e8['push'](_0x54d9e8['shift']());}catch(_0x452b43){_0x54d9e8['push'](_0x54d9e8['shift']());}}}(_0x26a2,0xf36f9));function _0x26a2(){const _0xadd3ec=['51898kzyxBe','3136675oZpexb','forks','stars','Could\x20not\x20fetch\x20data','2648187BbqJSU','6KqyYRa','sendMessage','\x20People\x20are\x20using\x20FLASH-MD.*\x0a\x0a*','3217497CxuRpU','24icfVVi','fmd','\x20People\x20have\x20starred\x20it\x20as\x20a\x20sign\x20of\x20Loving\x20it.*\x0a\x0a*KEEP\x20USING\x20FLASH-MD*\x20\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20*Made\x20With*\x20🤍','22iTRCdO','log','../france/king','stargazers_count','defineProperty','https://api.github.com/repos/franceking1/Flash-Md','forks_count','452140jBRPKH','4982873ntqSWJ','20710100HBCPwO','json','\x0a*A\x20Total\x20of\x20'];_0x26a2=function(){return _0xadd3ec;};return _0x26a2();}Object[_0x38779b(0x98)](exports,'__esModule',{'value':!![]});const {king}=require(_0x38779b(0x96));king({'nomCom':_0x38779b(0x92),'reaction':'😌'},async(_0x19d4f7,_0x38b91f,_0x3d2aaa)=>{const _0x2e4be4=_0x38779b,_0x222ff5=_0x2e4be4(0x99),_0x219e02='https://telegra.ph/file/0820836f81fe0eb66850d.mp4',_0x1a18d0=await fetch(_0x222ff5),_0xc04a08=await _0x1a18d0[_0x2e4be4(0x9e)]();if(_0xc04a08){const _0x421625={'stars':_0xc04a08[_0x2e4be4(0x97)],'forks':_0xc04a08[_0x2e4be4(0x9a)]},_0x1895cf=_0x2e4be4(0x9f)+_0x421625[_0x2e4be4(0xa2)]+_0x2e4be4(0xa8)+_0x421625[_0x2e4be4(0xa3)]+_0x2e4be4(0x93);await _0x38b91f[_0x2e4be4(0xa7)](_0x19d4f7,{'video':{'url':_0x219e02},'caption':_0x1895cf});}else console[_0x2e4be4(0x95)](_0x2e4be4(0xa4));});
-
+            await sock.sendMessage(chatId, {
+                text: repoInfo,
+                contextInfo: {
+                    forwardingScore: 1,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363238139244263@newsletter',
+                        newsletterName: 'FLASH-MD',
+                        serverMessageId: -1
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error in github command:', error);
+            await sock.sendMessage(chatId, {
+                text: '❌ Error fetching repository information.'
+            });
+        }
+    }
+};

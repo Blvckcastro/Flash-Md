@@ -16,6 +16,7 @@
     "heroku-client": "^3.1.0",
     "mumaker": "^2.0.0",
     "moment-timezone": "^0.5.43",
+    "acrcloud": "^1.4.0", 
     "performance-now": "^2.1.0",
     "pino": "^8.15.1",
     "axios": "^1.4.0",

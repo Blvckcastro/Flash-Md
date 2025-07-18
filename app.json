@@ -1,79 +1,98 @@
 {
-  "name": "FLASH-MD V2.5",
-  "description": "A powerful, feature-rich WhatsApp bot built using Baileys. Supports anti-delete, auto-read, status interaction, and more.",
-  "repository": "https://github.com/franceking1/Flash-Md-V2",
+  "name": "FLASH-MD-V2.5",
+  "description": "A WhatsApp bot powered by Baileys.",
+  "repository": "https://github.com/franceking1/FLASH-MD-V2",
   "stack": "heroku-24",
   "scripts": {
     "postdeploy": "echo 'Deployment complete!'"
   },
   "env": {
     "SESSION": {
-      "description": "Put your session id here.",
+      "description": "Flash MD session string (required for WhatsApp login)",
       "required": true
     },
     "PREFIX": {
-      "description": "List of command prefixes separated by commas (e.g. !, /, .). Leave blank for no prefix.",
-      "required": false
+      "description": "Comma-separated list of command prefixes (e.g. !, /)",
+      "required": false,
+      "value": "!"
     },
     "YOUR_NUMBER": {
-      "description": "Your WhatsApp number in international format (e.g. 254742063632). Used as the bot owner's number.",
-      "required": false
+      "description": "Your WhatsApp number in international format (e.g. 254742063632)",
+      "required": false,
+      "value": "254742063632"
     },
     "MODE": {
-      "description": "Bot mode: 'private' (only owner can use) or 'public' (anyone can use). Defaults to 'private'.",
-      "required": false
+      "description": "Bot mode: 'private' or 'public'",
+      "required": false,
+      "value": "public"
     },
     "WARNINGS": {
-      "description": "Number of warnings a user receives before being blocked or acted on. Default is 3.",
-      "required": false
+      "description": "Number of warnings before action is taken",
+      "required": false,
+      "value": "3"
     },
     "YOUR_NAME": {
-      "description": "Bot owner's display name. Shown in bot replies and menus. Default is 'FLASH-MD'.",
-      "required": false
-    },
-    "YOUR_LID": {
-      "description": "Put your LID Here, foe effectiveness response of the bot.",
-      "required": false
+      "description": "Your name or bot owner name",
+      "required": false,
+      "value": "FLASH-MD"
     },
     "ANTICALL": {
-      "description": "Enable call blocking. Set to 'on' to auto-block callers.",
-      "required": false
+      "description": "Block incoming calls (on/off)",
+      "required": false,
+      "value": "on"
     },
     "ANTIDELETE": {
-      "description": "Enable anti-delete for messages. Set to 'on' to prevent users from deleting messages unnoticed.",
-      "required": false
+      "description": "Enable anti-delete for messages (on/off)",
+      "required": false,
+      "value": "on"
+    },
+    "AUTO_REACTION": {
+      "description": "Enable auto-reaction to messages (on/off)",
+      "required": false,
+      "value": "off"
     },
     "AUTO_READ_STATUS": {
-      "description": "Enable automatic viewing of WhatsApp status updates. Set to 'on' to activate.",
-      "required": false
+      "description": "Enable auto view of status updates (on/off)",
+      "required": false,
+      "value": "off"
     },
     "AUTO_LIKE": {
-      "description": "Enable automatic liking/reacting to viewed statuses. Set to 'on' to activate.",
-      "required": false
+      "description": "Enable auto-like on status updates (on/off)",
+      "required": false,
+      "value": "off"
     },
     "AUTO_READ_DM": {
-      "description": "Enable automatic reading of incoming private messages. Set to 'on' to activate.",
-      "required": false
+      "description": "Enable auto-read of direct messages (on/off)",
+      "required": false,
+      "value": "off"
     },
     "HEROKU_API_KEY": {
-      "description": "Your Heroku API key (optional). Used for auto restarts or updates from within the bot.",
+      "description": "Your Heroku API key (for automatic restart or deploy)",
       "required": false
     },
     "HEROKU_APP_NAME": {
-      "description": "Your Heroku app name (used with API key). Needed for Heroku-based restarts.",
-      "required": false
-    },
-    "ALIVE_URL": {
-      "description": "Optional image or page URL shown in alive/status check command. Supports images or hosted pages.",
+      "description": "Your Heroku app name",
       "required": false
     },
     "PRESENCE_DM": {
-      "description": "Bot presence in private chats. Options: typing, online, recording, paused, offline.",
-      "required": false
+      "description": "Bot presence status in DMs (typing, online, recording, paused, offline)",
+      "required": false,
+      "value": "typing"
     },
     "PRESENCE_GROUP": {
-      "description": "Bot presence in group chats. Options: typing, online, recording, paused, offline.",
-      "required": false
+      "description": "Bot presence status in groups (typing, online, recording, paused, offline)",
+      "required": false,
+      "value": "recording"
+    },
+    "YOUR_LID": {
+      "description": "Your WhatsApp Lid (used for advanced features or admin control)",
+      "required": false,
+      "value": ""
+    },
+    "timezone": {
+      "description": "Timezone for scheduling or logging",
+      "required": false,
+      "value": "Africa/Nairobi"
     }
   },
   "formation": {

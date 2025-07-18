@@ -414,7 +414,7 @@ module.exports = [
         }
     }
   }, 
-  {
+ /* {
     name: 'save',
       get flashOnly() {
   return franceking();
@@ -471,7 +471,7 @@ module.exports = [
             await king.sendMessage(fromJid, { text: 'Failed to save or resend the message.' }, { quoted: msg });
         }
     }
-  },
+  },*/
   {
     name: 'archive',
         get flashOnly() {

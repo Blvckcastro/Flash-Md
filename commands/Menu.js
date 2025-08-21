@@ -119,16 +119,18 @@ module.exports = [
             let counter = 1;
             const sortedCategories = Object.keys(categorized).sort();
             for (const category of sortedCategories) {
-                const commandsInCategory = categorized[category].filter(c => c.name);
-                if (commandsInCategory.length === 0) continue;
-                text += `*╭──❒ ${applyStyle(category, 10)} ❒───⊷*\n`;
-                text += `│╭────────────\n`;
-                for (const cmd of commandsInCategory) {
-                    text += `││ ${counter++}. ${applyStyle(cmd.name, 10)}\n`;
-                }
-                text += `│╰────────────\n`;
-                text += `╰══════════════⊷\n\n`;
-            }
+    const commandsInCategory = categorized[category]
+        .filter(c => c.name)
+        .sort((a, b) => a.name.localeCompare(b.name));
+    if (commandsInCategory.length === 0) continue;
+    text += `*╭──❒ ${applyStyle(category, 10)} ❒───⊷*\n`;
+    text += `│╭────────────\n`;
+    for (const cmd of commandsInCategory) {
+        text += `││ ${counter++}. ${applyStyle(cmd.name, 10)}\n`;
+    }
+    text += `│╰────────────\n`;
+    text += `╰══════════════⊷\n\n`;
+}
 
             await king.sendMessage(fromJid, {
                 text,

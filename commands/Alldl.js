@@ -1,9 +1,13 @@
 const axios = require('axios');
+const { franceking } = require('../main');
 
 const BASE_URL = 'https://www.noobs-api.rf.gd';
 
 module.exports = {
   name: 'alldl',
+  get flashOnly() {
+    return franceking();
+  },
   aliases: ['alldown', 'dl', 'download'],
   description: 'Download media from various social platforms.',
   category: 'Download',

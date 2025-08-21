@@ -203,44 +203,57 @@ module.exports = [
     }
   },
 
-  {
-    name: 'whois',
-    get flashOnly() {
-  return franceking();
-},
-    description: 'Get user profile picture and status.',
-    category: 'USER',
-
-    execute: async (king, msg, args) => {
-      const jid = msg.key.remoteJid;
-      const sender = getSenderJid(msg);
-
-      const quotedMsg = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-      const targetJid = msg.message?.extendedTextMessage?.contextInfo?.participant || sender;
-
-      let ppUrl;
-      try {
-        ppUrl = await king.profilePictureUrl(targetJid, 'image');
-      } catch (err) {
-        ppUrl = "https://static.animecorner.me/2023/08/op2.jpg";
-      }
-
-      let status = "No status found.";
-      try {
-        const userStatus = await king.fetchStatus(targetJid);
-        status = userStatus.status || status;
-      } catch (err) {}
-
-      const mess = {
-        image: { url: ppUrl },
-        caption: `*Name:* @${targetJid.split("@")[0]}\n*Number:* ${targetJid.replace('@s.whatsapp.net', '')}\n*Status:*\n${status}`,
-        mentions: quotedMsg ? [targetJid] : []
-      };
-
-      await king.sendMessage(jid, mess, { quoted: msg });
-    }
+    {
+  name: 'whois',
+  get flashOnly() {
+    return franceking();
   },
+  description: 'Get user profile picture and status.',
+  category: 'USER',
 
+  execute: async (king, msg, args) => {
+    const jid = msg.key.remoteJid;
+    const sender = getSenderJid(msg);
+
+    const quotedMsg = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+    const targetJid = msg.message?.extendedTextMessage?.contextInfo?.participant || sender;
+
+    let ppUrl;
+    try {
+      ppUrl = await king.profilePictureUrl(targetJid, 'image');
+    } catch (err) {
+      ppUrl = "https://static.animecorner.me/2023/08/op2.jpg";
+    }
+
+    let status = "No status found.";
+    let dateText = "";
+
+    try {
+      const fetchedStatuses = await king.fetchStatus(targetJid);
+      if (Array.isArray(fetchedStatuses) && fetchedStatuses.length > 0) {
+        const first = fetchedStatuses[0];
+        status = first?.status?.status || "No public status or user has hidden it.";
+        if (first?.status?.setAt) {
+          const date = new Date(first.status.setAt);
+          const formattedDate = date.toLocaleDateString("en-GB"); // DD/MM/YYYY
+          dateText = `\n*Set at:* ${formattedDate}`;
+        }
+      } else {
+        status = "No public status or user has hidden it.";
+      }
+    } catch (err) {
+      status = "Couldn't retrieve status due to an error.";
+    }
+
+    const mess = {
+      image: { url: ppUrl },
+      caption: `*Name:* @${targetJid.split("@")[0]}\n*Number:* ${targetJid.replace('@s.whatsapp.net', '')}\n*Status:*\n${status}${dateText}`,
+      mentions: quotedMsg ? [targetJid] : []
+    };
+
+    await king.sendMessage(jid, mess, { quoted: msg });
+  }
+}, 
   {
     name: 'mygroups',
     get flashOnly() {
@@ -278,50 +291,44 @@ try {
       }
     }
   },
-{
-    name: 'del',
+ {
+  name: 'del',
   get flashOnly() {
-  return franceking();
-},
-    aliases: ['delete'],
-    description: 'Deletes a replied message.',
-    category: 'USER',
+    return franceking();
+  },
+  aliases: ['delete'],
+  description: 'Deletes a replied message.',
+  category: 'USER',
   ownerOnly: true,
 
-    execute: async (king, msg, args) => {
-      const jid = msg.key.remoteJid;
-      
+  execute: async (king, msg, args) => {
+    const jid = msg.key.remoteJid;
 
-      const quotedMsg = msg.message?.extendedTextMessage?.contextInfo;
-      if (!quotedMsg) {
-        return king.sendMessage(jid, { text: "Please reply to a message you want to delete." }, { quoted: msg });
-      }
-
-      const isGroup = jid.endsWith('@g.us');
-      if (isGroup) {
-        const metadata = await king.groupMetadata(jid);
-        const botId = king.user?.id?.split(':')[0] || '';
-        const normalizedBotId = botId.includes('@s.whatsapp.net') ? botId : `${botId}@s.whatsapp.net`;
-        const isBotAdmin = metadata.participants.some(p =>
-          p.id === normalizedBotId && (p.admin === 'admin' || p.admin === 'superadmin')
-        );
-
-        if (!isBotAdmin) {
-          return king.sendMessage(jid, { text: "I'm not an admin in this group." }, { quoted: msg });
-        }
-      }
-
-      const key = {
-        remoteJid: jid,
-        id: quotedMsg.stanzaId,
-        fromMe: false,
-        participant: quotedMsg.participant
-      };
-
-      await king.sendMessage(jid, { delete: key });
+    const quotedMsg = msg.message?.extendedTextMessage?.contextInfo;
+    if (!quotedMsg) {
+      return king.sendMessage(jid, { text: "Please reply to a message you want to delete." }, { quoted: msg });
     }
-  },
 
+    const isGroup = jid.endsWith('@g.us');
+    if (isGroup) {
+      const metadata = await king.groupMetadata(jid);
+      const botId = king.user?.id?.split(':')[0] || '';
+      const normalizedBotId = botId.includes('@s.whatsapp.net') ? botId : `${botId}@s.whatsapp.net`;
+      const isBotAdmin = metadata.participants.some(p =>
+        p.id === normalizedBotId && (p.admin === 'admin' || p.admin === 'superadmin')
+      );
+    }
+
+    const key = {
+      remoteJid: jid,
+      id: quotedMsg.stanzaId,
+      fromMe: false,
+      participant: quotedMsg.participant
+    };
+
+    await king.sendMessage(jid, { delete: key });
+  }
+},
   {
     name: 'restart',
     get flashOnly() {

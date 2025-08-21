@@ -1,19 +1,6 @@
 const { franceking } = require('../main');
 const Heroku = require('heroku-client');
 
-
-const OWNERS = [
-  '254742063632@s.whatsapp.net',
-  '254757835036@s.whatsapp.net'
-];
-
-
-function isOwner(msg) {
-  const sender = msg.key.participant || msg.key.remoteJid;
-  return sender === global.KING_ID || OWNERS.includes(sender);
-}
-
-
 function getHerokuClient() {
   const apiKey = process.env.HEROKU_API_KEY;
   const appName = process.env.HEROKU_APP_NAME;
@@ -32,16 +19,13 @@ module.exports = [
   {
     name: 'addvar',
     get flashOnly() {
-  return franceking();
-},
+      return franceking();
+    },
     description: 'Adds a new Heroku config variable.',
     category: 'HEROKU',
+    ownerOnly: true,
     execute: async (king, msg, args) => {
       const fromJid = msg.key.remoteJid;
-
-      if (!isOwner(msg)) {
-        return king.sendMessage(fromJid, { text: 'Only Owners can use this command.' }, { quoted: msg });
-      }
 
       const input = args.join(" ");
       if (!input.includes("=")) {
@@ -67,16 +51,13 @@ module.exports = [
   {
     name: 'delvar',
     get flashOnly() {
-  return franceking();
-},
+      return franceking();
+    },
     description: 'Deletes a Heroku config variable.',
     category: 'HEROKU',
+    ownerOnly: true,
     execute: async (king, msg, args) => {
       const fromJid = msg.key.remoteJid;
-
-      if (!isOwner(msg)) {
-        return king.sendMessage(fromJid, { text: 'Only Owners can use this command.' }, { quoted: msg });
-      }
 
       const varName = args[0];
       if (!varName || !/^[A-Z_]+$/.test(varName)) {
@@ -97,16 +78,13 @@ module.exports = [
   {
     name: 'setvar',
     get flashOnly() {
-  return franceking();
-},
+      return franceking();
+    },
     description: 'Updates or sets a Heroku config variable.',
     category: 'HEROKU',
+    ownerOnly: true,
     execute: async (king, msg, args) => {
       const fromJid = msg.key.remoteJid;
-
-      if (!isOwner(msg)) {
-        return king.sendMessage(fromJid, { text: 'Only Owners can use this command.' }, { quoted: msg });
-      }
 
       const input = args.join(" ");
       if (!input.includes("=")) {
@@ -129,16 +107,13 @@ module.exports = [
   {
     name: 'getvar',
     get flashOnly() {
-  return franceking();
-},
+      return franceking();
+    },
     description: 'Fetches a specific Heroku config variable.',
     category: 'HEROKU',
+    ownerOnly: true,
     execute: async (king, msg, args) => {
       const fromJid = msg.key.remoteJid;
-
-      if (!isOwner(msg)) {
-        return king.sendMessage(fromJid, { text: 'Only Owners can use this command.' }, { quoted: msg });
-      }
 
       const varName = args[0];
       if (!varName) {
@@ -163,16 +138,13 @@ module.exports = [
   {
     name: 'allvar',
     get flashOnly() {
-  return franceking();
-},
+      return franceking();
+    },
     description: 'Lists all Heroku environment variables.',
     category: 'HEROKU',
+    ownerOnly: true,
     execute: async (king, msg) => {
       const fromJid = msg.key.remoteJid;
-
-      if (!isOwner(msg)) {
-        return king.sendMessage(fromJid, { text: 'Only Owners can use this command.' }, { quoted: msg });
-      }
 
       try {
         const { heroku, baseURI } = getHerokuClient();

@@ -1,7 +1,199 @@
-const { franceking } = require('../main');
+
 const axios = require('axios');
+const vertexAI = require('../france/Gemini');
+const { franceking } = require('../main');
+const { intelQuery } = require('../france/Deep');
 
 module.exports = [
+  {
+  name: 'deepseek',
+  aliases: ['intel', 'findout'],
+  description: 'Conducts an AI-powered investigation and returns summarized insights.',
+  category: 'AI',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (client, msg, args, fromJid) => {
+    const inputQuery = args.join(' ').trim();
+
+    if (!inputQuery) {
+      return client.sendMessage(fromJid, {
+        text: '🕵️ *You need to specify what to investigate.*\nTry: deepseek Bitcoin trends'
+      }, { quoted: msg });
+    }
+
+    try {
+      await client.sendMessage(fromJid, {
+        text: '⏳ *Gathering intelligence... please hold on.*'
+      }, { quoted: msg });
+
+      const data = await intelQuery(inputQuery);
+
+      const summary = data.summary?.trim() || '_No summary available._';
+      const references = data.references?.length
+        ? '\n🌍 *References:*\n' + data.references.map((url, idx) => `${idx + 1}. ${url}`).join('\n')
+        : '';
+
+      const cost = data.stats?.cost
+        ? `\n💰 *Estimated Cost:* $${data.stats.cost.toFixed(2)}`
+        : '';
+
+      const agent = data.stats?.engine
+        ? `\n🤖 *Agent Type:* ${data.stats.engine}`
+        : '';
+
+      const stats = `\n📑 *Pages:* ${data.stats.pages} | 🖼 *Images:* ${data.stats.images}`;
+
+      const messageBody = `🧾 *Intel Report:*\n\n${summary}${references}${cost}${agent}${stats}`;
+
+      const output = messageBody.length > 4000
+        ? messageBody.slice(0, 4000) + '…'
+        : messageBody;
+
+      await client.sendMessage(fromJid, {
+        text: output
+      }, { quoted: msg });
+
+    } catch (err) {
+      const fallback = [
+        '*🚫 Could not complete the investigation.*',
+        err.message ? `*Reason:* ${err.message}` : '',
+        err.stack ? `*Trace:* ${err.stack}` : ''
+      ].filter(Boolean).join('\n\n');
+
+      await client.sendMessage(fromJid, {
+        text: fallback
+      }, { quoted: msg });
+    }
+  }
+}, 
+  {
+  name: 'imagine',
+  aliases: ['draw', 'generate'],
+  description: 'Generate an image using Gemini AI.',
+  category: 'AI',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (king, msg, args, fromJid) => {
+    if (!args.length) {
+      return king.sendMessage(fromJid, {
+        text: '🧠 *What do you want to imagine?*\n\n_Example:_ `.imagine a futuristic city at night`'
+      }, { quoted: msg });
+    }
+
+    const prompt = args.join(' ');
+    const ai = new vertexAI();
+
+    try {
+      await king.sendMessage(fromJid, {
+        text: '🎨 *Generating image... Please wait.*'
+      }, { quoted: msg });
+
+      const predictions = await ai.image(prompt, {
+        model: 'imagen-3.0-generate-002',
+        aspect_ratio: '9:16'
+      });
+
+      const base64 = predictions?.[0]?.bytesBase64Encoded;
+
+      if (!base64) {
+        return king.sendMessage(fromJid, {
+          text: '⚠️ Sorry, I could not generate the image. Try again later.'
+        }, { quoted: msg });
+      }
+
+      const imageBuffer = Buffer.from(base64, 'base64');
+
+      await king.sendMessage(fromJid, {
+        image: imageBuffer,
+        caption: '_✨ Created by Flash-Md-V2_'
+      }, { quoted: msg });
+
+    } catch (err) {
+      const status = err.response?.status;
+      const errorData = err.response?.data;
+      const message = err.message;
+      const stack = err.stack;
+
+      const errorMsg = [
+        '*❌ Error generating image:*',
+        status ? `*Status:* ${status}` : '',
+        message ? `*Message:* ${message}` : '',
+        errorData ? `*Data:* ${JSON.stringify(errorData, null, 2)}` : '',
+        stack ? `*Stack:* ${stack}` : ''
+      ].filter(Boolean).join('\n\n');
+
+      const trimmedError = errorMsg.length > 4000 ? errorMsg.slice(0, 4000) + '…' : errorMsg;
+
+      await king.sendMessage(fromJid, {
+        text: trimmedError
+      }, { quoted: msg });
+    }
+  }
+}, 
+  {
+  name: 'gemini',
+  description: 'Ask anything using Gemini AI.',
+  category: 'AI',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (king, msg, args, fromJid) => {
+    if (!args.length) {
+      return king.sendMessage(fromJid, {
+        text: '❓ *Please provide a question or prompt to ask Gemini AI.*'
+      }, { quoted: msg });
+    }
+
+    const prompt = args.join(' ');
+    const ai = new vertexAI();
+
+    try {
+      const result = await ai.chat(prompt, {
+        model: 'gemini-1.5-flash'
+      });
+
+      const aiReply = result?.[0]?.content?.parts?.[0]?.text;
+
+      if (!aiReply) {
+        return king.sendMessage(fromJid, {
+          text: '⚠️ No response received from Gemini AI.'
+        }, { quoted: msg });
+      }
+
+      await king.sendMessage(fromJid, {
+        text: `💬 *Gemini AI says:*\n\n${aiReply}`
+      }, { quoted: msg });
+
+    } catch (err) {
+      const status = err.response?.status;
+      const errorData = err.response?.data;
+      const message = err.message;
+      const stack = err.stack;
+
+      const errorMsg = [
+        '*❌ Error talking to Gemini:*',
+        status ? `*Status:* ${status}` : '',
+        message ? `*Message:* ${message}` : '',
+        errorData ? `*Data:* ${JSON.stringify(errorData, null, 2)}` : '',
+        stack ? `*Stack:* ${stack}` : ''
+      ].filter(Boolean).join('\n\n');
+
+      const trimmedError = errorMsg.length > 4000 ? errorMsg.slice(0, 4000) + '…' : errorMsg;
+
+      await king.sendMessage(fromJid, {
+        text: trimmedError
+      }, { quoted: msg });
+    }
+  }
+}, 
   {
     name: 'llama',
     get flashOnly() {
@@ -176,72 +368,7 @@ module.exports = [
         }, { quoted: msg });
       }
     }
-  },
-  {
-    name: 'bard',
-    get flashOnly() {
-  return franceking();
-},
-    aliases: ['bard-ai'],
-    description: 'Chat with BARD AI.',
-    category: 'AI',
-    execute: async (sock, msg, args) => {
-      const chatId = msg.key.remoteJid;
-
-      try {
-        if (!args || args.length === 0) {
-          return await sock.sendMessage(chatId, {
-            text: 'Hello, I am *BARD AI*.\n\nHow can I assist you today?'
-          }, {
-            quoted: msg,
-            contextInfo: {
-              forwardingScore: 5,
-              isForwarded: true,
-              forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363238139244263@newsletter',
-                newsletterName: "FLASH-MD",
-                serverMessageId: 143,
-                sourceUrl: 'https://whatsapp.com/channel/0029VaTbb3p84Om9LRX1jg0P'
-              }
-            }
-          });
-        }
-
-        const prompt = args.join(' ');
-        const response = await fetch(`https://api.diioffc.web.id/api/ai/bard?query=${encodeURIComponent(prompt)}`);
-        const data = await response.json();
-
-        if (data.status && data.result && data.result.message) {
-          const answer = data.result.message;
-
-          await sock.sendMessage(chatId, {
-            text: `${answer}\n\n> *POWERED BY FLASH-MD*`
-          }, {
-            quoted: msg,
-            contextInfo: {
-              forwardingScore: 5,
-              isForwarded: true,
-              forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363238139244263@newsletter',
-                newsletterName: "FLASH-MD",
-                serverMessageId: 143,
-                sourceUrl: 'https://whatsapp.com/channel/0029VaTbb3p84Om9LRX1jg0P'
-              }
-            }
-          });
-
-        } else {
-          throw new Error('Invalid response from the API.');
-        }
-
-      } catch (error) {
-        console.error('Error getting response:', error.message);
-        await sock.sendMessage(chatId, {
-          text: '❌ Error getting response from BARD AI.'
-        }, { quoted: msg });
-      }
-    }
-  },
+  },       
   {
     name: 'inspire', 
     get flashOnly() {

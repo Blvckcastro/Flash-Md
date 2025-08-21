@@ -4,6 +4,79 @@ const db = require('../db');
 
 module.exports = [
     {
+  name: 'info',
+  aliases: ['ginfo', 'ginf'],
+        category: 'group', 
+  groupOnly: true,
+
+  async execute(sock, msg, args, fromJid) {
+    try {
+      const metadata = await sock.groupMetadata(fromJid);
+      const groupName = metadata.subject;
+      const groupId = metadata.id;
+      const participants = metadata.participants;
+      const totalMembers = participants.length;
+
+      const admins = participants.filter(p => p.admin);
+      const ownerJid = metadata.owner || (admins.find(p => p.admin === 'superadmin')?.id);
+      
+      
+      async function getDisplayNumber(jid) {
+        if (!jid) return 'Unknown';
+
+        if (jid.endsWith('@s.whatsapp.net')) {
+          return jid.split('@')[0];
+        }
+
+        if (jid.endsWith('@lid')) {
+          try {
+            const result = await sock.onWhatsApp(jid);
+            const waJid = result?.[0]?.jid;
+            return waJid ? waJid.split('@')[0] : jid.split('@')[0];
+          } catch (err) {
+            console.warn('Failed to resolve LID:', jid);
+            return jid.split('@')[0];
+          }
+        }
+
+        return jid.split('@')[0];
+      }
+
+      
+      const ownerNumber = await getDisplayNumber(ownerJid);
+
+      
+      const adminList = await Promise.all(admins.map(async (a, i) => {
+        const number = await getDisplayNumber(a.id);
+        return `${i + 1}. @${number}`;
+      }));
+
+      
+      const response = `*📄 Group Information:*\n\n` +
+        `📌 *Name:* ${groupName}\n` +
+        `🆔 *ID:* ${groupId}\n` +
+        `👑 *Owner:* @${ownerNumber}\n` +
+        `👥 *Members:* ${totalMembers}\n` +
+        `🛡️ *Admins (${admins.length}):*\n${adminList.join('\n')}`;
+
+      
+      await sock.sendMessage(fromJid, {
+        text: response,
+        mentions: [
+          ...(ownerJid ? [ownerJid] : []),
+          ...admins.map(a => a.id)
+        ]
+      }, { quoted: msg });
+
+    } catch (err) {
+      console.error('❌ Error fetching group info:', err);
+      await sock.sendMessage(fromJid, {
+        text: '⚠️ Could not fetch group info.'
+      }, { quoted: msg });
+    }
+  }
+}, 
+    {
   name: 'antilink',
         get flashOnly() {
   return franceking();
@@ -12,6 +85,7 @@ module.exports = [
   category: 'Group',
   adminOnly: true,
   botAdminOnly: true,
+  ownerOnly: true, 
   groupOnly: true,
 
   execute: async (king, msg, args) => {
@@ -187,6 +261,7 @@ module.exports = [
     category: 'Group',
     groupOnly: true,
     adminOnly: true,
+      ownerOnly: true, 
     botAdminOnly: true,
     execute: async (king, msg, args, fromJid) => {
       const newSubject = args.join(' ');
@@ -211,6 +286,7 @@ module.exports = [
     aliases: ['remove'],
     description: 'Remove a user from the group.',
     category: 'Group',
+      ownerOnly: true, 
     groupOnly: true,
     adminOnly: true,
     botAdminOnly: true,
@@ -243,6 +319,7 @@ module.exports = [
     aliases: [],
     description: 'Add a user to the group.',
     category: 'Group',
+      ownerOnly: true, 
     groupOnly: true,
     adminOnly: true,
     execute: async (king, msg, args) => {
@@ -276,6 +353,7 @@ module.exports = [
     aliases: [],
     description: 'Remove all non-admin members.',
     category: 'Group',
+      ownerOnly: true, 
     groupOnly: true,
     adminOnly: true,
     execute: async (king, msg) => {
@@ -301,6 +379,7 @@ module.exports = [
     aliases: [],
     description: 'Promote a member to admin.',
     category: 'Group',
+      ownerOnly: true, 
     groupOnly: true,
     adminOnly: true,
     botAdminOnly: true,
@@ -334,6 +413,7 @@ module.exports = [
     aliases: [],
     description: 'Demote a group admin.',
     category: 'Group',
+      ownerOnly: true, 
     groupOnly: true,
     adminOnly: true,
     botAdminOnly: true,
@@ -368,6 +448,7 @@ module.exports = [
     category: 'Group',
     groupOnly: true,
     adminOnly: true,
+    ownerOnly: true, 
     botAdminOnly: true,
     reaction: '☑️',
     execute: async (king, msg) => {
@@ -586,6 +667,7 @@ module.exports = [
     aliases: ['close'],
     description: 'Only admins can send messages.',
     category: 'Group',
+      ownerOnly: true, 
     groupOnly: true,
     adminOnly: true,
     botAdminOnly: true,
@@ -610,6 +692,7 @@ module.exports = [
     description: 'Allow all members to send messages.',
     category: 'Group',
     groupOnly: true,
+      ownerOnly: true, 
     adminOnly: true,
     botAdminOnly: true,
 
@@ -633,6 +716,7 @@ module.exports = [
     description: 'Get the group invite link.',
     category: 'Group',
     groupOnly: true,
+      ownerOnly: true, 
     adminOnly: true,
     botAdminOnly: true,
 
@@ -658,6 +742,7 @@ module.exports = [
     description: 'Revoke current invite link and generate new one.',
     category: 'Group',
     groupOnly: true,
+      ownerOnly: true, 
     adminOnly: true,
     botAdminOnly: true,
 

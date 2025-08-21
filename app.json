@@ -56,15 +56,15 @@
       "required": false,
       "value": "off"
     },
-    "AUTO_LIKE": {
-      "description": "Enable auto-like on status updates (on/off)",
-      "required": false,
-      "value": "off"
-    },
     "AUTO_READ_DM": {
       "description": "Enable auto-read of direct messages (on/off)",
       "required": false,
       "value": "off"
+    },
+    "YOUR_LID": {
+      "description": "Your WhatsApp Lid (used for advanced features or admin control)",
+      "required": false,
+      "value": ""
     },
     "HEROKU_API_KEY": {
       "description": "Your Heroku API key (for automatic restart or deploy)",
@@ -83,11 +83,6 @@
       "description": "Bot presence status in groups (typing, online, recording, paused, offline)",
       "required": false,
       "value": "recording"
-    },
-    "YOUR_LID": {
-      "description": "Your WhatsApp Lid (used for advanced features or admin control)",
-      "required": false,
-      "value": ""
     },
     "timezone": {
       "description": "Timezone for scheduling or logging",

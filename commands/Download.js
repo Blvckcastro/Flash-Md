@@ -1,6 +1,12 @@
+
 const { franceking } = require('../main');
+const { fetchAllPosts } = require('../france/Ig');
 const axios = require('axios');
 const getFBInfo = require('@xaviabot/fb-downloader');
+const { search, download } = require('aptoide_scrapper_fixed'); 
+const { fetchStories } = require('../france/Ig');
+ const getInstaMedia = require('../france/Insta'); 
+const getTikTokMedia = require('../france/Tok'); 
 
 function formatDate(dateStr) {
     const date = new Date(dateStr);
@@ -14,7 +20,155 @@ function formatDate(dateStr) {
 }
 
 
+
 module.exports = [
+ {
+  name: 'tiktok',
+  aliases: ['tk', 'tiktokdl'],
+  description: 'Download TikTok media by link.',
+  category: 'Download',
+
+  execute: async (king, msg, args, fromJid) => {
+    const query = args.join(' ').trim();
+
+    if (!query || !query.startsWith('http')) {
+      return king.sendMessage(fromJid, {
+        text: '📌 *Please provide a valid TikTok video link.*'
+      }, { quoted: msg });
+    }
+
+    const response = await getTikTokMedia(query);
+
+    if (!response.status) {
+      return king.sendMessage(fromJid, {
+        text: `❌ *Failed to fetch TikTok media.*\nReason: ${response.message}`
+      }, { quoted: msg });
+    }
+
+    const caption = `🎵 *${response.title || 'TikTok Media'}*`;
+
+    if (response.video) {
+      await king.sendMessage(fromJid, {
+        video: { url: response.video },
+        caption
+      }, { quoted: msg });
+    } else {
+      await king.sendMessage(fromJid, {
+        text: '⚠️ Video link not found.'
+      }, { quoted: msg });
+    }
+
+    // if (response.audio) {
+    //   await king.sendMessage(fromJid, {
+    //     document: { url: response.audio },
+    //     mimetype: 'audio/mpeg',
+    //     fileName: 'tiktok-audio.mp3'
+    //   }, { quoted: msg });
+    // }
+  }
+}, 
+ {
+  name: 'insta',
+  aliases: ['igdl', 'ig', 'instagram'],
+  description: 'Download media from an Instagram link.',
+  category: 'Download',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (king, msg, args, fromJid) => {
+    const url = args[0];
+
+    if (!url || !url.startsWith('http') || !url.includes('instagram.com')) {
+      return king.sendMessage(fromJid, {
+        text: '🔗 *Please provide a valid Instagram URL.*\n\nExample: `!insta https://www.instagram.com/reel/xyz123/`'
+      }, { quoted: msg });
+    }
+
+    try {
+      const { igmp4, error } = await getInstaMedia(url);
+
+      if (error || !igmp4) {
+        return king.sendMessage(fromJid, {
+          text: `❌ *Failed to download media:*\n${error || 'Invalid or unsupported link.'}`
+        }, { quoted: msg });
+      }
+
+      const isVideo = igmp4.includes('.mp4') || igmp4.includes('video');
+
+      if (isVideo) {
+        await king.sendMessage(fromJid, {
+          video: { url: igmp4 },
+          caption: '_*✨ Downloaded by Flash-Md-V2*_'
+        }, { quoted: msg });
+      } else {
+        await king.sendMessage(fromJid, {
+          image: { url: igmp4 },
+          caption: '_*✨ Downloaded by Flash-Md-V2*_'
+        }, { quoted: msg });
+      }
+
+    } catch (err) {
+      await king.sendMessage(fromJid, {
+        text: '❌ *Unexpected error occurred. Please try again later.*'
+      }, { quoted: msg });
+    }
+  }
+}, 
+ {
+  name: 'posts',
+  aliases: ['igposts', 'instafeed'],
+  description: 'Download recent Instagram posts of a given username.',
+  category: 'Download',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (king, msg, args, fromJid) => {
+    const username = args[0];
+
+    if (!username) {
+      return king.sendMessage(fromJid, {
+        text: '📸 *Please provide an Instagram username.*\n\nExample: `!posts france.king1`'
+      }, { quoted: msg });
+    }
+
+    try {
+      const { total, items } = await fetchAllPosts(username);
+
+      if (total === 0 || !items.length) {
+        return king.sendMessage(fromJid, {
+          text: `❌ *No posts found for @${username}.*\nMaybe the account is private or invalid.`
+        }, { quoted: msg });
+      }
+
+      
+      const maxPosts = items.slice(0, 5);
+
+      for (const item of maxPosts) {
+        if (item.type === 'image') {
+          await king.sendMessage(fromJid, {
+            image: { url: item.url },
+            caption: `📸 _✨ Downloaded by Flash-Md-V2_`
+          }, { quoted: msg });
+        } else if (item.type === 'video') {
+          await king.sendMessage(fromJid, {
+            video: { url: item.url },
+            caption: `🎥 _✨ Downloaded by Flash-Md-V2_`
+          }, { quoted: msg });
+        }
+      }
+
+    } catch (err) {
+      console.error('[IG POSTS ERROR]', err);
+      await king.sendMessage(fromJid, {
+        text: '❌ *Something went wrong fetching posts.* Please try again later.'
+      }, { quoted: msg });
+    }
+  }
+}, 
     {
         name: 'npm',
         get flashOnly() {
@@ -144,7 +298,7 @@ _Use this info to explore or install the package via terminal_`;
 },
   aliases: ["tg"],
   description: "Download and send all stickers from a Telegram pack",
-  category: "Sticker",
+  category: "Download",
   execute: async (sock, msg, args) => {
     const chatId = msg.key.remoteJid;
 
@@ -310,73 +464,7 @@ _Use this info to explore or install the package via terminal_`;
     }
   }
 },   
-  {
-  name: "insta",
-      get flashOnly() {
-  return franceking();
-},
-  aliases: ["ig", "Instagram", "igdl"],
-  reaction: "📸",
-  category: "Download",
-  execute: async (sock, msg, args) => {
-    const chatId = msg.key.remoteJid;
-    const contextInfo = {
-      forwardingScore: 1,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363238139244263@newsletter',
-        newsletterName: 'FLASH-MD',
-        serverMessageId: -1
-      }
-    };
-
-    if (!args || args.length === 0) {
-      return await sock.sendMessage(chatId, { text: "Please provide an Instagram URL to download from." }, { quoted: msg });
-    }
-
-    const url = args.join(' ');
-
-    try {
-      const response = await fetch(`https://api.diioffc.web.id/api/download/instagram?url=${encodeURIComponent(url)}`);
-      const data = await response.json();
-
-      if (data.status && data.result && data.result.length > 0) {
-        const media = data.result[0];
-
-        if (url.startsWith('https://www.instagram.com/reel/')) {
-          if (media.url) {
-            await sock.sendMessage(chatId, {
-              video: { url: media.url },
-              caption: "FLASH-MD INSTA DOWNLOADER - Video",
-              contextInfo
-            }, { quoted: msg });
-            await sock.sendMessage(chatId, { text: "Done Downloading your Video!" }, { quoted: msg });
-          } else {
-            await sock.sendMessage(chatId, { text: "No valid video found." }, { quoted: msg });
-          }
-        } else if (url.startsWith('https://www.instagram.com/p/')) {
-          if (media.thumbnail) {
-            await sock.sendMessage(chatId, {
-              image: { url: media.thumbnail },
-              caption: "FLASH-MD INSTA DOWNLOADER - Image",
-              contextInfo
-            }, { quoted: msg });
-            await sock.sendMessage(chatId, { text: "Done Downloading Your Image!" }, { quoted: msg });
-          } else {
-            await sock.sendMessage(chatId, { text: "No valid image found." }, { quoted: msg });
-          }
-        } else {
-          await sock.sendMessage(chatId, { text: "Unsupported Instagram URL type." }, { quoted: msg });
-        }
-      } else {
-        await sock.sendMessage(chatId, { text: "No media found or invalid URL provided." }, { quoted: msg });
-      }
-    } catch (error) {
-      console.error("INSTA Error:", error);
-      await sock.sendMessage(chatId, { text: "An error occurred while processing the request. Please try again." }, { quoted: msg });
-    }
-  }
-},  
+ 
   {
   name: "gitclone",
       get flashOnly() {
@@ -710,87 +798,64 @@ _Use this info to explore or install the package via terminal_`;
     }
   }
 }, 
-    {
-  name: "story",
-        get flashOnly() {
+   
+{
+  name: 'story',
+    get flashOnly() {
   return franceking();
-},
-  aliases: ["instastory", "igstory"],
-  description: "Download all Instagram stories from a username",
-  category: "Download",
-  execute: async (sock, msg, args) => {
-    const chatId = msg.key.remoteJid;
-    const senderName = msg.pushName || "User";
-    const contextInfo = {
-      forwardingScore: 1,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363238139244263@newsletter',
-        newsletterName: 'FLASH-MD',
-        serverMessageId: -1
-      }
-    };
+}, 
+  aliases: ['igstories', 'stories'],
+  description: 'Fetch Instagram stories using.',
+  category: 'Download',
 
-    if (!args[0]) {
-      return await sock.sendMessage(chatId, { text: "Please provide a valid Instagram username.", contextInfo }, { quoted: msg });
+  async execute(king, msg, args, fromJid) {
+    const username = args[0]?.toLowerCase(); 
+    if (!username) {
+      return king.sendMessage(fromJid, {
+        text: '📖 *Provide a username to fetch stories.*\n\nExample: `story france.king1`'
+      }, { quoted: msg });
     }
 
-    const username = args[0];
-    const apiUrl = `https://bk9.fun/download/igs?username=${encodeURIComponent(username)}`;
-
     try {
-      const apiResponse = await axios.get(apiUrl);
+      const res = await fetchStories(username);
 
-      if (!apiResponse.data.status || !apiResponse.data.BK9 || apiResponse.data.BK9.length === 0) {
-        return await sock.sendMessage(chatId, { text: "No stories found or failed to fetch stories.", contextInfo }, { quoted: msg });
+      if (!res || res.total === 0 || !Array.isArray(res.items)) {
+        return king.sendMessage(fromJid, {
+          text: `⚠️ No stories found for *${username}*.`
+        }, { quoted: msg });
       }
 
-      const stories = apiResponse.data.BK9;
+      const stories = res.items.slice(0, 5); 
 
-      await sock.sendMessage(chatId, {
-        text: `*Instagram Story Downloader*\n\n` +
-              `╭───────────────◆\n` +
-              `│⿻ *Instagram User:* ${username}\n` +
-              `│⿻ *Total Stories:* ${stories.length}\n` +
-              `╰────────────────◆\n\n` +
-              `_Downloading all stories now..._`,
-        contextInfo
-      }, { quoted: msg });
+      for (const [index, item] of stories.entries()) {
+        const caption = `📖 *${username}* - Story ${index + 1} of ${stories.length}\n\n_*✨Downloaded by Flash-Md-V2*_`;
 
-      let mediaSent = 0;
-
-      for (const story of stories) {
-        if (story.url) {
-          if (story.type.includes("image")) {
-            await sock.sendMessage(chatId, {
-              image: { url: story.url },
-              caption: `📷 Instagram Story - @${username}`
-            }, { quoted: msg });
-            mediaSent++;
-          } else if (story.type.includes("video")) {
-            await sock.sendMessage(chatId, {
-              video: { url: story.url },
-              caption: `🎥 Instagram Story - @${username}`
-            }, { quoted: msg });
-            mediaSent++;
-          }
+        if (item.type === 'image') {
+          await king.sendMessage(fromJid, {
+            image: { url: item.url },
+            caption
+          }, { quoted: msg });
+        } else if (item.type === 'video') {
+          await king.sendMessage(fromJid, {
+            video: { url: item.url },
+            caption
+          }, { quoted: msg });
+        } else {
+          await king.sendMessage(fromJid, {
+            text: `⚠️ Unknown media type:\n${item.url}`
+          }, { quoted: msg });
         }
       }
 
-      if (mediaSent > 0) {
-        await sock.sendMessage(chatId, { text: `✅ All ${mediaSent} stories have been sent.`, contextInfo }, { quoted: msg });
-      } else {
-        await sock.sendMessage(chatId, { text: "⚠️ The stories could not be sent. They might be expired or private.", contextInfo }, { quoted: msg });
-      }
-
     } catch (error) {
-      console.error("IG Story Error:", error);
-      await sock.sendMessage(chatId, { text: "An error occurred while fetching stories. Try again later.", contextInfo }, { quoted: msg });
+      console.error('Error fetching Instagram stories:', error);
+      return king.sendMessage(fromJid, {
+        text: `❌ Failed to fetch stories for *${username}*. Try again later.`
+      }, { quoted: msg });
     }
   }
-    },  
-            
-   {
+}, 
+      {
   name: "mediafire",
        get flashOnly() {
   return franceking();
@@ -857,67 +922,8 @@ const contextInfo = {
     }
   }
 }, 
-    {
-  name: "tiktok",
-        get flashOnly() {
-  return franceking();
-},
-  aliases: ["tik", "tok", "tikdl"],
-  description: "Download TikTok video",
-  category: "Download",
-  execute: async (sock, msg, args) => {
-    const chatId = msg.key.remoteJid;
-const contextInfo = {
-  forwardingScore: 1,
-  isForwarded: true,
-  forwardedNewsletterMessageInfo: {
-    newsletterJid: '120363238139244263@newsletter',
-    newsletterName: 'FLASH-MD',
-    serverMessageId: -1
-  }
-};
-    const input = args.join(' ');
-    if (!input) {
-      return await sock.sendMessage(chatId, {
-        text: "Please insert a TikTok video link.",
-        contextInfo
-      }, { quoted: msg });
-    }
 
-    try {
-      await sock.sendMessage(chatId, {
-        text: "⏳ Downloading TikTok video, please wait...",
-        contextInfo
-      }, { quoted: msg });
-
-      const res = await axios.get(`https://bk9.fun/download/tiktok?url=${encodeURIComponent(input)}`);
-      const data = res.data;
-
-      if (!data.status || !data.BK9) {
-        return await sock.sendMessage(chatId, {
-          text: "Failed to retrieve video. Please check the link and try again.",
-          contextInfo
-        }, { quoted: msg });
-      }
-
-      const videoUrl = data.BK9.BK9;
-      const caption = data.BK9.desc || "No caption available.";
-
-      await sock.sendMessage(chatId, {
-        video: { url: videoUrl },
-        caption: `*📹 TikTok Video Downloaded!*\n\n*Caption:* ${caption}\n\n_Provided by FLASH-MD_`,
-        gifPlayback: false
-      }, { quoted: msg });
-
-    } catch (err) {
-      console.error("TikTok Download Error:", err);
-      await sock.sendMessage(chatId, {
-        text: "An error occurred while processing the TikTok link. Please try again later.",
-        contextInfo
-      }, { quoted: msg });
-    }
-  }
-}, 
+     
 {
   name: "image-dl",
     get flashOnly() {
@@ -973,82 +979,82 @@ const contextInfo = {
     }
   }
 }, 
-    
-    {
-        name: 'apk',
-        get flashOnly() {
-  return franceking();
-},
-        aliases: ['app', 'application'],
-        description: 'Search and download Android APK files.',
-        category: 'Download',
-        execute: async (sock, msg, args) => {
-            const chatId = msg.key.remoteJid;
+ 
+   
+{
+    name: 'apk',
+    aliases: ['app', 'application'],
+    get flashOnly() {
+    return franceking();
+  },
+    description: 'Search and download Android APK files.',
+    category: 'Download',
+    execute: async (sock, msg, args) => {
+        const chatId = msg.key.remoteJid;
 
-            if (!args || !args.length) {
+        if (!args || !args.length) {
+            return await sock.sendMessage(chatId, {
+                text: '❗ Please provide an app name to search for.'
+            }, { quoted: msg });
+        }
+
+        const query = args.join(' ');
+
+        try {
+            await sock.sendMessage(chatId, {
+                text: '🔍 Searching for the APK, please wait...'
+            }, { quoted: msg });
+
+            const results = await search(query); 
+            if (!results || results.length === 0) {
                 return await sock.sendMessage(chatId, {
-                    text: '❗ Please provide an app name to search for.'
+                    text: `❌ No APKs found for "${query}".`
                 }, { quoted: msg });
             }
 
-            const query = args.join(' ');
+            const apk = results[0]; 
+            const dlInfo = await download(apk.id); 
 
-            try {
-                await sock.sendMessage(chatId, {
-                    text: '🔍 Searching for the APK, please wait...'
+            if (!dlInfo || !dlInfo.dllink) {
+                return await sock.sendMessage(chatId, {
+                    text: '❌ Failed to retrieve the download link.'
                 }, { quoted: msg });
+            }
 
-                const searchRes = await axios.get(`https://bk9.fun/search/apk?q=${encodeURIComponent(query)}`);
-                const results = searchRes.data?.BK9;
-
-                if (!results || results.length === 0) {
-                    return await sock.sendMessage(chatId, {
-                        text: `❌ No APKs found for "${query}".`
-                    }, { quoted: msg });
-                }
-
-                const apk = results[0];
-                const downloadRes = await axios.get(`https://bk9.fun/download/apk?id=${apk.id}`);
-                const downloadLink = downloadRes.data?.BK9?.dllink;
-
-                if (!downloadLink) {
-                    return await sock.sendMessage(chatId, {
-                        text: '❌ Failed to retrieve the download link.'
-                    }, { quoted: msg });
-                }
-
-                await sock.sendMessage(chatId, {
-                    document: { url: downloadLink },
-                    mimetype: 'application/vnd.android.package-archive',
-                    fileName: `${apk.name}.apk`,
-                    caption: `*📥 APK DOWNLOADER*
+            await sock.sendMessage(chatId, {
+                document: { url: dlInfo.dllink },
+                mimetype: 'application/vnd.android.package-archive',
+                fileName: `${apk.name}.apk`,
+                caption: `*📥 APK DOWNLOADER*
 
 *📌 App:* ${apk.name}
 *📎 Type:* APK File
 *⚙️ Powered by:* FLASH-MD`
-                }, { quoted: msg });
+            }, { quoted: msg });
 
-                await sock.sendMessage(chatId, {
-                    text: `✅ Successfully fetched and sent APK for *${apk.name}*.
+            await sock.sendMessage(chatId, {
+                text: `✅ Successfully fetched and sent APK for *${apk.name}*.
 
 _Enjoy using the app. Powered by FLASH-MD_`,
-                    contextInfo: {
-                        forwardingScore: 1,
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: '120363238139244263@newsletter',
-                            newsletterName: 'FLASH-MD',
-                            serverMessageId: -1
-                        }
+                contextInfo: {
+                    forwardingScore: 1,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363238139244263@newsletter',
+                        newsletterName: 'FLASH-MD',
+                        serverMessageId: -1
                     }
-                });
-            } catch (error) {
-                await sock.sendMessage(chatId, {
-                    text: '❌ An error occurred while processing your APK request.'
-                }, { quoted: msg });
-            }
+                }
+            });
+
+        } catch (error) {
+            console.error('APK Error:', error);
+            await sock.sendMessage(chatId, {
+                text: '❌ An error occurred while processing your APK request.'
+            }, { quoted: msg });
         }
-    },
+    }
+}, 
 
     {
         name: 'fetch',

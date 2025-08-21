@@ -1,5 +1,6 @@
 const { franceking } = require('../main');
 const axios = require('axios');
+const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const fs = require('fs-extra');
 const ffmpegPath = require('ffmpeg-static'); 
 const ffmpeg = require('fluent-ffmpeg'); 
@@ -7,6 +8,13 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 const baileys = require('@whiskeysockets/baileys');
 const { Sticker } = require('wa-sticker-formatter');
 const { Catbox } = require('node-catbox');
+const path = require('path');
+const fs1 = require('fs');
+const { exec } = require('child_process');
+const util = require('util');
+const execPromise = util.promisify(exec);
+const { tmpdir } = require('os');
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const catbox = new Catbox();
 const { downloadContentFromMessage } = baileys;
@@ -35,7 +43,132 @@ const contextInfo = {
   }
 };
 
+
 module.exports = [
+  {
+  name: 'trim',
+  description: 'Trim quoted audio or video.',
+  category: 'Converter',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (king, msg, args, fromJid) => {
+    const start = parseInt(args[0]);
+    const end = parseInt(args[1]);
+
+    const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+    const isVideo = quoted?.videoMessage;
+    const isAudio = quoted?.audioMessage;
+
+    if (!(isVideo || isAudio)) {
+      return king.sendMessage(fromJid, {
+        text: '❌ *Reply to a video or audio with the command.*\n\nExample:\n`trim 1 4`'
+      }, { quoted: msg });
+    }
+
+    if (isNaN(start) || isNaN(end) || end <= start) {
+      return king.sendMessage(fromJid, {
+        text: '❌ *Invalid time range.*\n\nUse: `trim <start> <end>`\nExample: `trim 1 4`'
+      }, { quoted: msg });
+    }
+
+    const buffer = await downloadMediaMessage(
+      { message: quoted },
+      'buffer',
+      {},
+      { logger: console }
+    );
+
+    const ext = isVideo ? 'mp4' : 'mp3';
+    const input = path.join(tmpdir(), `input_${Date.now()}.${ext}`);
+    const output = path.join(tmpdir(), `output_${Date.now()}.${ext}`);
+    fs.writeFileSync(input, buffer);
+
+    ffmpeg(input)
+      .setStartTime(start)
+      .setDuration(end - start)
+      .output(output)
+      .on('end', async () => {
+        const trimmed = fs.readFileSync(output);
+        await king.sendMessage(fromJid, {
+          [isVideo ? 'video' : 'audio']: trimmed,
+          mimetype: isVideo ? 'video/mp4' : 'audio/mp4',
+          ptt: !isVideo
+        }, { quoted: msg });
+        fs.unlinkSync(input);
+        fs.unlinkSync(output);
+      })
+      .on('error', async () => {
+        await king.sendMessage(fromJid, {
+          text: '❌ *Failed to trim the media.*'
+        }, { quoted: msg });
+        if (fs.existsSync(input)) fs.unlinkSync(input);
+        if (fs.existsSync(output)) fs.unlinkSync(output);
+      })
+      .run();
+  }
+}, 
+  {
+    name: 'toimg',
+    aliases: ['photo'],
+    description: 'Convert static sticker to image.',
+    category: 'Converter',
+
+    get flashOnly() {
+      return franceking();
+    },
+
+    execute: async (king, msg, args, fromJid) => {
+      const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+
+      if (!quoted?.stickerMessage) {
+        return king.sendMessage(fromJid, {
+          text: '❌ *Reply to a static sticker to convert it to image.*'
+        }, { quoted: msg });
+      }
+
+      if (
+        quoted.stickerMessage.isAnimated ||
+        quoted.stickerMessage.isLottie ||
+        quoted.stickerMessage.mimetype !== 'image/webp'
+      ) {
+        return king.sendMessage(fromJid, {
+          text: '❌ *Only static stickers are supported.*'
+        }, { quoted: msg });
+      }
+
+      fs.ensureDirSync('./temp');
+      const tmpPath = './temp/sticker.webp';
+      const outPath = './temp/image.jpg';
+
+      const buffer = await downloadMediaMessage(
+        { message: quoted },
+        'buffer',
+        {},
+        { logger: console }
+      );
+
+      fs.writeFileSync(tmpPath, buffer);
+
+      try {
+const ffmpegPath = require('ffmpeg-static');
+await execPromise(`"${ffmpegPath}" -y -i "${tmpPath}" "${outPath}"`);
+        await king.sendMessage(fromJid, {
+          image: fs.readFileSync(outPath),
+          caption: '✅ *Sticker converted to image.*'
+        }, { quoted: msg });
+      } catch (err) {
+        await king.sendMessage(fromJid, {
+          text: `❌ *Failed to convert sticker.*\n\n${err.message}`
+        }, { quoted: msg });
+      } finally {
+        if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath);
+        if (fs.existsSync(outPath)) fs.unlinkSync(outPath);
+      }
+    }
+  }, 
 
 {
   name: 'sticker',
@@ -117,7 +250,7 @@ module.exports = [
 },
     aliases: [],
     description: 'Enhance an image from a given URL using AI enhancement.',
-    category: 'Media',
+    category: 'converter',
     execute: async (sock, msg, args) => {
         const chatId = msg.key.remoteJid;
 

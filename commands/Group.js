@@ -1,8 +1,46 @@
 const { franceking } = require('../main');
 const conf = require('../config');
 const db = require('../db');
+const { getOnlineMembers } = require('../france/Presence');
 
 module.exports = [
+  {
+    name: 'online',
+    aliases: ['listonline', 'active'],
+    description: 'List currently online group members.',
+    category: 'Group',
+    groupOnly: true,
+
+    get flashOnly() {
+      return franceking();
+    },
+
+    execute: async (king, msg, args, fromJid) => {
+      try {
+        const online = await getOnlineMembers(king, fromJid);
+
+        if (!online.length) {
+          return king.sendMessage(fromJid, {
+            text: '👥 No online members detected (or they have privacy enabled).'
+          }, { quoted: msg });
+        }
+
+        const onlineList = online
+          .map((jid, index) => `${index + 1}. 🟢 @${jid.split('@')[0]}`)
+          .join('\n');
+
+        await king.sendMessage(fromJid, {
+          text: `🧾 *Online Group Members:*\n\n${onlineList}`,
+          mentions: online
+        }, { quoted: msg });
+
+      } catch (err) {
+        await king.sendMessage(fromJid, {
+          text: `❌ Error fetching online users:\n\n${err.message}`
+        }, { quoted: msg });
+      }
+    }
+  }, 
     {
   name: 'info',
   aliases: ['ginfo', 'ginf'],

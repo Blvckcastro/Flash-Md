@@ -3,41 +3,27 @@ const yts = require("yt-search");
 const { franceking } = require('../main');
 const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const fs = require("fs");
-const ffmpeg = require("fluent-ffmpeg");
-const ffmpegPath = require("ffmpeg-static");
 const path = require("path");
 
-ffmpeg.setFfmpegPath(ffmpegPath);
+const TEMP_DIR = path.join(__dirname, '..', 'temp');
+if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR);
 
-function trimTo15Seconds(inputBuffer, outputPath) {
-  return new Promise((resolve, reject) => {
-    const tempDir = path.join(__dirname, '..', 'temp');
-    if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
-
-    const inputFile = path.join(tempDir, `input-${Date.now()}.mp4`);
-    const outputFile = outputPath;
-
-    fs.writeFileSync(inputFile, inputBuffer);
-
-    ffmpeg(inputFile)
-      .setStartTime(0)
-      .duration(15)
-      .output(outputFile)
-      .on('end', () => {
-        const trimmed = fs.readFileSync(outputFile);
-        fs.unlinkSync(inputFile);
-        fs.unlinkSync(outputFile);
-        resolve(trimmed);
-      })
-      .on('error', (err) => reject(err))
-      .run();
+async function identifySong(buffer) {
+  const acr = new acrcloud({
+    host: 'identify-us-west-2.acrcloud.com',
+    access_key: '4ee38e62e85515a47158aeb3d26fb741',
+    access_secret: 'KZd3cUQoOYSmZQn1n5ACW5XSbqGlKLhg6G8S8EvJ'
   });
+
+  const result = await acr.identify(buffer);
+  if (result.status.code !== 0 || !result.metadata?.music?.length) return null;
+  return result.metadata.music[0];
 }
 
 module.exports = {
   name: 'shazam',
-  aliases: ['whatsong', 'findsong'],
-  description: 'Identify a song from a short audio or video and show details.',
+  aliases: ['whatsong', 'findsong', 'identify'],
+  description: 'Identify a song from an audio or video clip.',
   category: 'Search',
 
   get flashOnly() {
@@ -50,52 +36,56 @@ module.exports = {
 
     if (!quoted || (!quoted.audioMessage && !quoted.videoMessage)) {
       return king.sendMessage(fromJid, {
-        text: '🎵 *Reply to a short audio or video (10–15s) to identify the song.*'
+        text: '🎵 *Reply to a short audio or video message (10–20 seconds) to identify the song.*'
       }, { quoted: msg });
     }
 
+    const filePath = path.join(TEMP_DIR, `media-${Date.now()}.dat`);
+
     try {
-      const buffer = await downloadMediaMessage(
+      const stream = await downloadMediaMessage(
         { message: quoted },
-        'buffer',
+        'stream',
         {},
         { logger: console }
       );
 
-      const trimmedBuffer = await trimTo15Seconds(buffer, path.join(__dirname, '..', 'temp', `trimmed-${Date.now()}.mp4`));
+      const writeStream = fs.createWriteStream(filePath);
+      stream.pipe(writeStream);
+      await new Promise(resolve => writeStream.on('finish', resolve));
 
-      const acr = new acrcloud({
-        host: 'identify-ap-southeast-1.acrcloud.com',
-        access_key: '26afd4eec96b0f5e5ab16a7e6e05ab37',
-        access_secret: 'wXOZIqdMNZmaHJP1YDWVyeQLg579uK2CfY6hWMN8'
-      });
+      let buffer = fs.readFileSync(filePath);
+      const MAX_SIZE = 1 * 1024 * 1024;
+      if (buffer.length > MAX_SIZE) buffer = buffer.slice(0, MAX_SIZE);
 
-      const { status, metadata } = await acr.identify(trimmedBuffer);
+      const matchedSong = await identifySong(buffer);
 
-      if (status.code !== 0 || !metadata?.music?.length) {
+      if (!matchedSong) {
         return king.sendMessage(fromJid, {
-          text: '❌ Could not recognize the song. Try again with a clearer 10–15 second clip.'
+          text: '❌ *Song could not be recognized.* Please try again with a clearer or more melodic part of the track.'
         }, { quoted: msg });
       }
 
-      const music = metadata.music[0];
-      const { title, artists, album, genres, release_date } = music;
+      const { title, artists, album, genres, release_date } = matchedSong;
+      const ytQuery = `${title} ${artists?.[0]?.name || ''}`;
+      const ytSearch = await yts(ytQuery);
 
-      const query = `${title} ${artists?.[0]?.name || ''}`;
-      const search = await yts(query);
-
-      let result = `🎶 *Song Identified!*\n`;
-      result += `\n🎧 *Title:* ${title}`;
-      if (artists) result += `\n👤 *Artist(s):* ${artists.map(a => a.name).join(', ')}`;
-      if (album) result += `\n💿 *Album:* ${album.name}`;
-      if (genres) result += `\n🎼 *Genre:* ${genres.map(g => g.name).join(', ')}`;
-      if (release_date) result += `\n📅 *Released:* ${release_date}`;
-      if (search?.videos?.[0]?.url) result += `\n🔗 *YouTube:* ${search.videos[0].url}`;
+      let response = `🎶 *Song Identified!*\n\n`;
+      response += `🎧 *Title:* ${title || 'Unknown'}\n`;
+      if (artists) response += `👤 *Artist(s):* ${artists.map(a => a.name).join(', ')}\n`;
+      if (album?.name) response += `💿 *Album:* ${album.name}\n`;
+      if (genres?.length) response += `🎼 *Genre:* ${genres.map(g => g.name).join(', ')}\n`;
+      if (release_date) {
+        const [year, month, day] = release_date.split('-');
+        response += `📅 *Released:* ${day}/${month}/${year}\n`;
+      }
+      if (ytSearch?.videos?.[0]?.url) response += `🔗 *YouTube:* ${ytSearch.videos[0].url}\n`;
+      response += `\n*POWERED BY FLASH-MD V2*`;
 
       return king.sendMessage(fromJid, {
-        text: result.trim(),
+        text: response.trim(),
         contextInfo: {
-          forwardingScore: 1,
+          forwardingScore: 777,
           isForwarded: true,
           forwardedNewsletterMessageInfo: {
             newsletterJid: '120363238139244263@newsletter',
@@ -108,8 +98,10 @@ module.exports = {
     } catch (err) {
       console.error('[SHZ ERROR]', err);
       return king.sendMessage(fromJid, {
-        text: '⚠️ Song not recognizable. Try again with a clearer or shorter clip.'
+        text: '⚠️ *Error:* Unable to recognize the song. Please try again with a clear, short clip (10–20s).'
       }, { quoted: msg });
+    } finally {
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }
   }
 };

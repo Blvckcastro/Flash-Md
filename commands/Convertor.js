@@ -243,7 +243,7 @@ await execPromise(`"${ffmpegPath}" -y -i "${tmpPath}" "${outPath}"`);
     }
   }
 },
-{
+/*{
     name: 'enhance',
   get flashOnly() {
   return franceking();
@@ -287,7 +287,7 @@ await execPromise(`"${ffmpegPath}" -y -i "${tmpPath}" "${outPath}"`);
         }
     }
 }, 
-  
+  */
   {
   name: 'quotly',
     get flashOnly() {

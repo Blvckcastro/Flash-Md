@@ -93,7 +93,7 @@ module.exports = [
             const usersFormatted = users.toLocaleString();
             const starsFormatted = stars.toLocaleString();
             const forksFormatted = forks.toLocaleString();
-            const prefix = config.prefixes.join(', ') || '.';
+            const prefix = config.prefixes.join(', ') || '';
             const botOwner = config.ON || 'Unknown';
 
             const categorized = {};

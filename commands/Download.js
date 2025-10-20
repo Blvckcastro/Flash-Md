@@ -1,4 +1,3 @@
-
 const { franceking } = require('../main');
 const { fetchAllPosts } = require('../france/Ig');
 const axios = require('axios');
@@ -45,7 +44,7 @@ module.exports = [
       }, { quoted: msg });
     }
 
-    const caption = `🎵 *${response.title || 'TikTok Media'}*`;
+    const caption = `🎵 *${response.title || 'FLASH-MD V2'}*`;
 
     if (response.video) {
       await king.sendMessage(fromJid, {

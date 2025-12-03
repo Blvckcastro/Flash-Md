@@ -31,7 +31,7 @@ module.exports = {
       const ai = new vertexAI();
 
       const result = await ai.chat(prompt, {
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.5-flash',
         file_buffer: imageBuffer
       });
 

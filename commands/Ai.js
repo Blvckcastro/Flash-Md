@@ -6,6 +6,102 @@ const { intelQuery } = require('../france/Deep');
 
 module.exports = [
   {
+    name: 'deepseek',
+    aliases: ['intel', 'findout'],
+    description: 'Conducts an AI-powered investigation and returns summarized insights.',
+    category: 'AI',
+
+    get flashOnly() {
+      return franceking();
+    },
+
+    execute: async (client, msg, args, fromJid) => {
+      const inputQuery = args.join(' ').trim();
+
+      if (!inputQuery) {
+        return client.sendMessage(fromJid, {
+          text: '🕵️ *You need to specify what to investigate.*\nTry: deepseek Bitcoin trends'
+        }, { quoted: msg });
+      }
+
+      try {
+        await client.sendMessage(fromJid, {
+          text: '⏳ *Gathering intelligence... please hold on.*'
+        }, { quoted: msg });
+
+        const data = await intelQuery(inputQuery);
+
+        const summary = data.summary?.trim() || '_No summary available._';
+        const references = data.references?.length
+          ? '\n🌍 *References:*\n' + data.references.map((url, idx) => `${idx + 1}. ${url}`).join('\n')
+          : '';
+
+        const cost = data.stats?.cost
+          ? `\n💰 *Estimated Cost:* $${data.stats.cost.toFixed(2)}`
+          : '';
+
+        const agent = data.stats?.engine
+          ? `\n🤖 *Agent Type:* ${data.stats.engine}`
+          : '';
+
+        const stats = `\n📑 *Pages:* ${data.stats.pages} | 🖼 *Images:* ${data.stats.images}`;
+
+        const messageBody = `🧾 *Intel Report:*\n\n${summary}${references}${cost}${agent}${stats}`;
+        const output = messageBody.length > 4000
+          ? messageBody.slice(0, 4000) + '…'
+          : messageBody;
+
+        const interactiveButtons = [
+          {
+            name: "cta_copy",
+            buttonParamsJson: JSON.stringify({
+              display_text: "Copy Summary",
+              id: "copysummary",
+              copy_code: output
+            })
+          },
+          {
+            name: "cta_url",
+            buttonParamsJson: JSON.stringify({
+              display_text: "Visit Repo",
+              url: "https://github.com/franceking1/Flash-Md-V2"
+            })
+          },
+          {
+            name: "cta_url",
+            buttonParamsJson: JSON.stringify({
+              display_text: "Follow Telegram",
+              url: "https://t.me/theflashmd"
+            })
+          }
+        ];
+
+        const interactiveMessage = {
+          caption: "*🧠 DeepSeek Intel Report*",
+          text: output,
+          footer: "Choose an option below ⬇️",
+          interactiveButtons
+        };
+
+        await client.sendMessage(fromJid, interactiveMessage, { quoted: msg });
+
+      } catch (err) {
+        const fallback = [
+          '*🚫 Could not complete the investigation.*',
+          err.message ? `*Reason:* ${err.message}` : '',
+          err.stack ? `*Trace:* ${err.stack}` : ''
+        ].filter(Boolean).join('\n\n');
+
+        await client.sendMessage(fromJid, {
+          text: fallback
+        }, { quoted: msg });
+      }
+    }
+  }, 
+
+
+/*module.exports = [
+  {
   name: 'deepseek',
   aliases: ['intel', 'findout'],
   description: 'Conducts an AI-powered investigation and returns summarized insights.',
@@ -68,7 +164,7 @@ module.exports = [
       }, { quoted: msg });
     }
   }
-}, 
+}, */
   {
   name: 'imagine',
   aliases: ['draw', 'generate'],
@@ -135,7 +231,69 @@ module.exports = [
       }, { quoted: msg });
     }
   }
-}, 
+},
+ /* {
+  name: 'gemini',
+  description: 'Ask anything using Gemini AI.',
+  category: 'AI',
+
+  get flashOnly() {
+    return franceking();
+  },
+
+  execute: async (king, msg, args, fromJid) => {
+    if (!args.length) {
+      return king.sendMessage(fromJid, {
+        text: '❓ *Please provide a question or prompt to ask Gemini AI.*'
+      }, { quoted: msg });
+    }
+
+    const prompt = args.join(' ');
+    const ai = new vertexAI();
+
+    try {
+      const result = await ai.chat(prompt, {
+        model: 'gemini-2.5-flash'
+      });
+
+      const aiReply = result?.[0]?.content?.parts?.[0]?.text;
+
+      if (!aiReply) {
+        return king.sendMessage(fromJid, {
+          text: '⚠️ No response received from Gemini AI.',
+          ai: true
+        }, { quoted: msg });
+      }
+
+      await king.sendMessage(fromJid, {
+        text: `💬 *Gemini AI says:*\n\n${aiReply}`,
+        ai: true
+      }, { quoted: msg });
+
+    } catch (err) {
+      const status = err.response?.status;
+      const errorData = err.response?.data;
+      const message = err.message;
+      const stack = err.stack;
+
+      const errorMsg = [
+        '*❌ Error talking to Gemini:*',
+        status ? `*Status:* ${status}` : '',
+        message ? `*Message:* ${message}` : '',
+        errorData ? `*Data:* ${JSON.stringify(errorData, null, 2)}` : '',
+        stack ? `*Stack:* ${stack}` : ''
+      ].filter(Boolean).join('\n\n');
+
+      const trimmedError = errorMsg.length > 4000 ? errorMsg.slice(0, 4000) + '…' : errorMsg;
+
+      await king.sendMessage(fromJid, {
+        text: trimmedError,
+        ai: true
+      }, { quoted: msg });
+    }
+  }
+}, */
+
   {
   name: 'gemini',
   description: 'Ask anything using Gemini AI.',
@@ -157,20 +315,51 @@ module.exports = [
 
     try {
       const result = await ai.chat(prompt, {
-        model: 'gemini-1.5-flash'
+        model: 'gemini-2.5-flash'
       });
 
       const aiReply = result?.[0]?.content?.parts?.[0]?.text;
 
       if (!aiReply) {
         return king.sendMessage(fromJid, {
-          text: '⚠️ No response received from Gemini AI.'
+          text: '⚠️ No response received from Gemini AI.',
+          ai: true
         }, { quoted: msg });
       }
 
-      await king.sendMessage(fromJid, {
-        text: `💬 *Gemini AI says:*\n\n${aiReply}`
-      }, { quoted: msg });
+      const interactiveButtons = [
+        {
+          name: "cta_copy",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Copy Answer",
+            id: "copygemini",
+            copy_code: aiReply
+          })
+        },
+        {
+          name: "cta_url",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Visit Repo",
+            url: "https://github.com/franceking1/Flash-Md-V2"
+          })
+        },
+        {
+          name: "cta_url",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Follow Telegram",
+            url: "https://t.me/theflashmd"
+          })
+        }
+      ];
+
+      const interactiveMessage = {
+        caption: "*🤖 Gemini AI Response*",
+        text: `💬 *Gemini AI says:*\n\n${aiReply}`,
+        footer: "Choose an option below ⬇️",
+        interactiveButtons
+      };
+
+      await king.sendMessage(fromJid, interactiveMessage, { quoted: msg });
 
     } catch (err) {
       const status = err.response?.status;
@@ -189,11 +378,14 @@ module.exports = [
       const trimmedError = errorMsg.length > 4000 ? errorMsg.slice(0, 4000) + '…' : errorMsg;
 
       await king.sendMessage(fromJid, {
-        text: trimmedError
+        text: trimmedError,
+        ai: true
       }, { quoted: msg });
     }
   }
 }, 
+
+/*  
   {
     name: 'llama',
     get flashOnly() {
@@ -236,7 +428,81 @@ module.exports = [
         await sock.sendMessage(chatId, { text: "An error occurred while getting a response from LLaMA." }, { quoted: msg });
       }
     }
+  },*/
+{
+  name: 'llama',
+  get flashOnly() {
+    return franceking();
   },
+  aliases: ['ilama'],
+  description: 'Ask LLaMA AI a question or prompt.',
+  category: 'AI',
+  execute: async (sock, msg, args) => {
+    const chatId = msg.key.remoteJid;
+    if (!args || args.length === 0) {
+      return await sock.sendMessage(chatId, { text: "Please provide a question to ask LLaMA." }, { quoted: msg });
+    }
+
+    const prompt = args.join(' ');
+    const url = `https://api.gurusensei.workers.dev/llama?prompt=${encodeURIComponent(prompt)}`;
+
+    try {
+      const { data } = await axios.get(url);
+      if (!data?.response?.response) {
+        return await sock.sendMessage(chatId, { text: "No response received from LLaMA." }, { quoted: msg });
+      }
+
+      const responseText = data.response.response.trim();
+
+      const interactiveButtons = [
+        {
+          name: "cta_copy",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Copy Answer",
+            id: "copyllama",
+            copy_code: responseText
+          })
+        },
+        {
+          name: "cta_url",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Visit Repo",
+            url: "https://github.com/franceking1/Flash-Md-V2"
+          })
+        },
+        {
+          name: "cta_url",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Follow Telegram",
+            url: "https://t.me/theflashmd"
+          })
+        }
+      ];
+
+      const interactiveMessage = {
+        caption: "*🦙 LLaMA AI Response*",
+        text: `*LLaMA says:*\n\n${responseText}`,
+        footer: "Choose an option below ⬇️",
+        interactiveButtons,
+        contextInfo: {
+          forwardingScore: 1,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363238139244263@newsletter',
+            newsletterName: 'FLASH-MD',
+            serverMessageId: -1
+          }
+        }
+      };
+
+      await sock.sendMessage(chatId, interactiveMessage, { quoted: msg });
+    } catch (error) {
+      console.error('LLaMA API Error:', error);
+      await sock.sendMessage(chatId, { text: "An error occurred while getting a response from LLaMA." }, { quoted: msg });
+    }
+  }
+}, 
+  
   {
     name: 'jokes',
     get flashOnly() {
@@ -406,7 +672,80 @@ module.exports = [
       }
     }
   },
-  {
+
+{
+  name: 'pair',
+  get flashOnly() {
+    return franceking();
+  },
+  description: 'Generates a pairing code for a phone number.',
+  category: 'General',
+  execute: async (sock, msg, args) => {
+    const chatId = msg.key.remoteJid;
+
+    if (!args || args.length === 0) {
+      return await sock.sendMessage(chatId, {
+        text: "❗ Please provide a phone number to generate a pairing code."
+      }, { quoted: msg });
+    }
+
+    const number = args.join(' ').trim();
+    const url = `https://fixed-sessions.onrender.com/pair?number=${encodeURIComponent(number)}`;
+
+    try {
+      await sock.sendMessage(chatId, {
+        text: "*FLASH-MD is generating your pairing code...*"
+      }, { quoted: msg });
+
+      const response = await axios.get(url);
+      const data = response.data;
+
+      if (!data?.code) {
+        return await sock.sendMessage(chatId, {
+          text: "⚠️ Could not retrieve the pairing code. Please check the number and try again."
+        }, { quoted: msg });
+      }
+// TRY Buttons! 🗿
+      
+      const interactiveButtons = [
+        {
+          name: "cta_url",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Visit Repo",
+            url: "https://github.com/franceking1/Flash-Md-V2"
+          })
+        },
+        {
+          name: "cta_copy",
+          buttonParamsJson: JSON.stringify({
+            display_text: "Copy Code",
+            id: "copycode",
+            copy_code: data.code 
+          })
+        }
+      ];
+
+      const interactiveMessage = {
+        image: { url: "https://files.catbox.moe/r6g1zn.jpg"},
+        caption: `📲 *Pairing Code for:* ${number}`,
+        title: "FLASH-MD • Pairing Code",
+        footer: "Tap the button below to copy your code ⤵️",
+        interactiveButtons
+      };
+
+      await sock.sendMessage(chatId, interactiveMessage, { quoted: msg });
+
+    } catch (error) {
+      console.error('Pairing Code Error:', error);
+      await sock.sendMessage(chatId, {
+        text: "❌ There was an error processing your request. Please try again later."
+      }, { quoted: msg });
+    }
+  }
+}, 
+
+  
+ /* {
     name: 'pair',
     get flashOnly() {
   return franceking();
@@ -421,7 +760,7 @@ module.exports = [
       }
 
       const number = args.join(' ').trim();
-      const url = `https://flash-v2-session.onrender.com/code?number=${encodeURIComponent(number)}`;
+      const url = `https://fixed-sessions.onrender.com/pair?number=${encodeURIComponent(number)}`;
 
       try {
         await sock.sendMessage(chatId, { text: "*FLASH-MD is generating your pairing code...*" }, { quoted: msg });
@@ -455,7 +794,7 @@ module.exports = [
         await sock.sendMessage(chatId, { text: "There was an error processing your request. Please try again later." }, { quoted: msg });
       }
     }
-  },
+  },*/
   {
     name: 'best-wallp',
     get flashOnly() {

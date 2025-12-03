@@ -18,9 +18,78 @@ function formatDate(dateStr) {
     return `${day}/${month}/${year} at ${hours}:${minutes} ${ampm}`;
 }
 
+module.exports = [ 
+ {
+    name: 'spotify',
+    aliases: ['spot', 'sp'],
+    description: 'Download a Spotify song by search query',
+    usage: '!spotify <song name>',
+    execute: async (sock, msg, args) => {
+        const chatId = msg.key.remoteJid;
+        const query = args.join(' ');
 
+        if (!query) {
+            return sock.sendMessage(chatId, { text: '❌ Please provide a song name.\n\nExample: *!spotify not afraid*' });
+        }
 
-module.exports = [
+        const apiUrl = `https://okatsu-rolezapiiz.vercel.app/search/spotify?q=${encodeURIComponent(query)}`;
+
+        try {
+            const response = await axios.get(apiUrl);
+            const data = response.data;
+
+            if (!data.status || !data.result || !data.result.audio) {
+                return sock.sendMessage(chatId, { text: '❌ Song not found or audio unavailable.' });
+            }
+
+            const {
+                title,
+                artist,
+                name,
+                duration,
+                popularity,
+                thumbnail,
+                url,
+                audio
+            } = data.result;
+
+            const infoText = `🎵 *${title}*
+👤 *Artist:* ${artist}
+⏱️ *Duration:* ${duration}
+📈 *Popularity:* ${popularity}
+🔗 *Link:* ${url}
+
+_Sending the audio..._`;
+
+            await sock.sendMessage(chatId, {
+                image: { url: thumbnail },
+                caption: infoText,
+                contextInfo: {
+                    externalAdReply: {
+                        title: title,
+                        body: "Spotify Downloader",
+                        mediaType: 1,
+                        thumbnailUrl: thumbnail,
+                        renderLargerThumbnail: true,
+                        mediaUrl: url,
+                        sourceUrl: url
+                    }
+                }
+            });
+
+            await sock.sendMessage(chatId, {
+                audio: { url: audio },
+                mimetype: 'audio/mp4',
+                fileName: `${title}.mp3`,
+                ptt: false
+            });
+
+        } catch (error) {
+            console.error('Spotify command error:', error.message);
+            await sock.sendMessage(chatId, { text: '❌ Failed to fetch or send the Spotify song.' });
+        }
+    }
+}, 
  {
   name: 'tiktok',
   aliases: ['tk', 'tiktokdl'],

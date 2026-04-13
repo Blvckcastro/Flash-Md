@@ -1,7 +1,7 @@
 import { downloadContentFromMessage } from '@whiskeysockets/baileys';
 import fs from 'fs-extra';
 import path from 'path';
-import * as Jimp from 'jimp';
+import { Jimp } from 'jimp';
 import { MESSAGES } from '../france/index.js';
 import CONFIG from '../config.js';
 
@@ -24,10 +24,10 @@ async function getBuffer(message, type) {
 
 const resizeImage = async (imagePath) => {
   const image = await Jimp.read(imagePath);
-  const resized = image.crop(0, 0, image.getWidth(), image.getHeight()).scaleToFit(720, 720);
+  const resized = image.crop({ x: 0, y: 0, w: image.bitmap.width, h: image.bitmap.height }).scaleToFit({ w: 720, h: 720 });
   return {
-    img: await resized.getBufferAsync(Jimp.MIME_JPEG),
-    preview: await resized.normalize().getBufferAsync(Jimp.MIME_JPEG)
+    img: await resized.getBuffer('image/jpeg'),
+    preview: await resized.normalize().getBuffer('image/jpeg')
   };
 };
 
@@ -68,13 +68,23 @@ export const commands = [
       }
       
       try {
+        console.log("=== FULLPP DEBUG START ===");
+        console.log("1. Got quoted image message");
+        
         const buffer = await getBuffer(quotedImage, "image");
+        console.log("2. Buffer created, size:", buffer.length, "bytes");
+        
         const mediaPath = path.join(process.cwd(), "temp", `${Date.now()}.jpg`);
         await fs.ensureDir(path.dirname(mediaPath));
         await fs.writeFile(mediaPath, buffer);
-        const resized = await resizeImage(mediaPath);
+        console.log("3. File saved to:", mediaPath);
         
-        await sock.query({
+        const resized = await resizeImage(mediaPath);
+        console.log("4. Image resized, output size:", resized.img.length, "bytes");
+        
+        console.log("5. About to send query to:", S_WHATSAPP_NET);
+        
+        const result = await sock.query({
           tag: "iq",
           attrs: {
             to: S_WHATSAPP_NET,
@@ -88,15 +98,40 @@ export const commands = [
           }]
         });
         
+        console.log("7. Query successful, response:", result);
+        
         await sock.sendMessage(from, {
           text: MESSAGES.whatsapp.fullpp.success
         }, { quoted: msg });
         await fs.unlink(mediaPath);
+        console.log("=== FULLPP DEBUG END (SUCCESS) ===");
       } catch (err) {
-        console.error("Fullpp error:", err);
+        console.error("=== FULLPP ERROR ===");
+        console.error("Error message:", err.message);
+        console.error("Error stack:", err.stack);
+        console.error("Error object:", JSON.stringify(err, Object.getOwnPropertyNames(err), 2));
+        
+        if (err.response) {
+          console.error("Error response:", err.response);
+          if (err.response.content) {
+            console.error("Error content:", err.response.content);
+          }
+        }
+        
+        if (err.code) {
+          console.error("Error code:", err.code);
+        }
+        
         await sock.sendMessage(from, {
           text: MESSAGES.whatsapp.fullpp.error
         }, { quoted: msg });
+        
+        const ownerJid = getOwnerJid();
+        if (ownerJid) {
+          await sock.sendMessage(ownerJid, {
+            text: `Fullpp error in ${from}:\n${err.message}\n\nStack: ${err.stack?.slice(0, 200)}`
+          });
+        }
       }
     }
   },
@@ -482,7 +517,7 @@ export const commands = [
   },
   {
     name: 'vv2',
-    aliases: ["😲","❤️","👍"],
+    aliases: ["😂","❤️","👍"],
     description: 'Sends the view once media to the bot owner.',
     category: 'User',
     execute: async ({ sock, from, text, msg }) => {

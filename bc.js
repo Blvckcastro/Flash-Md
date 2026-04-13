@@ -38,31 +38,19 @@ function formatPhoneNumber(phone) {
 }
 
 export async function processStatusMessage(msg, sock) {
-  if (!msg.message) return
+  if (!msg.message || msg.key.remoteJid !== 'status@broadcast') return
+  
+  if (msg.key.fromMe === true) return
 
   const id = msg.key.id
-  const remoteJid = msg.key.remoteJid
-  const remoteJidAlt = msg.key.remoteJidAlt
+  if (seenStatusIds.has(id)) return
 
-  let statusPosterJid = null
+  const isLid = msg.key.addressingMode === 'lid'
+  const resolvedKey = isLid
+    ? { ...msg.key, participant: msg.key.remoteJidAlt || msg.key.participant }
+    : msg.key
 
-  
-  if (remoteJid === 'status@broadcast') {
-    statusPosterJid = remoteJidAlt || null
-  } else {
-    statusPosterJid = remoteJid
-  }
-
-  if (!id || !statusPosterJid) {
-    console.log('⚠️ Status message missing required fields:', JSON.stringify(msg.key))
-    return
-  }
-
-  if (seenStatusIds.has(id)) {
-    console.log(`⏩ Already processed status ${id}`)
-    return
-  }
-
+  let statusPosterJid = msg.key.participant || msg.key.remoteJidAlt || 'Unknown'
   let statusType = 'unknown'
   let statusCaption = ''
 
@@ -85,33 +73,17 @@ export async function processStatusMessage(msg, sock) {
       statusType = 'document'
     }
 
-    seenStatusIds.add(id)
-    if (seenStatusIds.size > 1000) {
-      const firstKey = seenStatusIds.values().next().value
-      seenStatusIds.delete(firstKey)
-    }
-
     if (CONFIG.AUTO_VIEW === true) {
-      try {
-        await sock.readMessages([msg.key])
-        console.log(`✅ Viewed status from: ${statusPosterJid}`)
-      } catch (viewErr) {
-        console.error(`❌ Failed to view status: ${viewErr.message}`)
-      }
+      await sock.readMessages([resolvedKey])
+      console.log(`✅ Viewed status: ${statusPosterJid.split('@')[0]} [${id}]`)
     }
 
     if (CONFIG.AUTO_LIKE === true) {
       setTimeout(async () => {
         try {
-          await sock.sendMessage(
-            'status@broadcast',
-            {
-              react: {
-                text: '🤍',
-                key: msg.key
-              }
-            }
-          )
+          await sock.sendMessage('status@broadcast', {
+            react: { text: '🤍', key: msg.key }
+          })
           console.log(`🤍 Liked status from: ${statusPosterJid}`)
         } catch (reactErr) {
           console.error(`❌ Failed to like status: ${reactErr.message}`)
@@ -119,18 +91,26 @@ export async function processStatusMessage(msg, sock) {
       }, 2000)
     }
 
+    seenStatusIds.add(id)
+    if (seenStatusIds.size > 1000) {
+      const firstKey = seenStatusIds.values().next().value
+      seenStatusIds.delete(firstKey)
+    }
+
     let senderName = msg.pushName || 'Unknown'
-    try {
-      const contact = await sock.onWhatsApp(statusPosterJid)
-      if (contact && contact[0]) {
-        senderName = contact[0].notify || senderName
-      }
-    } catch {}
+    if (statusPosterJid !== 'Unknown') {
+      try {
+        const contact = await sock.onWhatsApp(statusPosterJid)
+        if (contact && contact[0]) {
+          senderName = contact[0].notify || senderName
+        }
+      } catch {}
+    }
 
     logStatus(statusPosterJid, id, senderName, statusType, statusCaption)
 
-  } catch (statusErr) {
-    console.error(`❌ Error processing status: ${statusErr.message}`)
+  } catch (err) {
+    console.error('[AUTO-VIEW] Error viewing status:', err)
   }
 }
 
@@ -143,10 +123,7 @@ export async function handleStatusReply(msg, sock, senderJid) {
   try {
     const contextInfo = msg.message?.extendedTextMessage?.contextInfo
     const quotedMsg = contextInfo?.quotedMessage
-    const commandText =
-      msg.message?.conversation ||
-      msg.message?.extendedTextMessage?.text ||
-      ''
+    const commandText = msg.message?.conversation || msg.message?.extendedTextMessage?.text || ''
     const normalizedCommand = commandText.toLowerCase().trim()
     const statusCommands = ['share', 'send', 'tuma', 'nitumie']
     const isStatusReply = contextInfo?.participant && quotedMsg
@@ -160,25 +137,17 @@ export async function handleStatusReply(msg, sock, senderJid) {
         const buffer = await downloadMediaMessage(quotedMsgWrapper, 'buffer', {}, { logger: console })
         const filePath = path.join(tempDir, `${Date.now()}-status-image.jpg`)
         fs.writeFileSync(filePath, buffer)
-        sendMsg = {
-          image: { url: filePath },
-          caption: '📸 Sent by *Flash-Md-V3* !'
-        }
+        sendMsg = { image: { url: filePath }, caption: '📸 Sent by *Flash-Md-V3* !' }
       } else if (quotedMsg.videoMessage) {
         const buffer = await downloadMediaMessage(quotedMsgWrapper, 'buffer', {}, { logger: console })
         const filePath = path.join(tempDir, `${Date.now()}-status-video.mp4`)
         fs.writeFileSync(filePath, buffer)
-        sendMsg = {
-          video: { url: filePath },
-          caption: '🎥 Sent by *Flash-Md-V3* !'
-        }
+        sendMsg = { video: { url: filePath }, caption: '🎥 Sent by *Flash-Md-V3* !' }
       } else if (quotedMsg.stickerMessage) {
         const buffer = await downloadMediaMessage(quotedMsgWrapper, 'buffer', {}, { logger: console })
         const filePath = path.join(tempDir, `${Date.now()}-status-sticker.webp`)
         fs.writeFileSync(filePath, buffer)
-        sendMsg = {
-          sticker: { url: filePath }
-        }
+        sendMsg = { sticker: { url: filePath } }
       } else {
         return false
       }
@@ -187,18 +156,12 @@ export async function handleStatusReply(msg, sock, senderJid) {
 
       const fileUrl = sendMsg.image?.url || sendMsg.video?.url || sendMsg.sticker?.url
       if (fileUrl) {
-        try {
-          await fs.promises.unlink(fileUrl)
-        } catch (e) {
-          console.error(`Failed to delete temp file: ${fileUrl} - ${e.message}`)
-        }
+        try { await fs.promises.unlink(fileUrl) } catch {}
       }
-
       return true
     }
   } catch (err) {
     console.error(`Error in status reply: ${err.message}`)
   }
-
   return false
-} 
+}

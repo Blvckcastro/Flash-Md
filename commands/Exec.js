@@ -1,35 +1,64 @@
-const { exec } = require('child_process');
-const { franceking } = require('../main');
+import { exec as execPromise } from 'child_process';
+import { promisify } from 'util';
+import { MESSAGES } from '../france/index.js';
 
-module.exports = [
+const exec = promisify(execPromise);
+
+export const commands = [
   {
     name: 'exec',
-    get flashOnly() {
-      return franceking();
-    },
-    description: 'Execute shell commands remotely. OWNER ONLY.',
-    category: 'OWNER',
+    aliases: ['shell', 'cmd', 'run'],
+    description: 'Execute shell commands on the bot server.',
+    category: 'Owner',
     ownerOnly: true,
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      if (!args.length) {
-        return king.sendMessage(fromJid, { text: 'Usage: exec <shell command>' }, { quoted: msg });
+    execute: async ({ sock, from, text, msg }) => {
+      if (!text) {
+        return sock.sendMessage(from, {
+          text: MESSAGES.exec.noCommand
+        }, { quoted: msg });
       }
 
-      const command = args.join(' ');
-      king.sendMessage(fromJid, { text: `⚡ Running command:\n${command}` }, { quoted: msg });
-
-      exec(command, { maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
-        if (error) {
-          return king.sendMessage(fromJid, { text: `❌ Error:\n${error.message}` }, { quoted: msg });
+      try {
+        const { stdout, stderr } = await exec(text);
+        
+        let output = '';
+        if (stdout) output += stdout;
+        if (stderr) output += stderr;
+        
+        if (!output) {
+          output = MESSAGES.exec.noOutput;
         }
-        if (stderr) {
-          king.sendMessage(fromJid, { text: `⚠️ Stderr:\n${stderr}` }, { quoted: msg });
+        
+        const maxLength = 4000;
+        if (output.length > maxLength) {
+          const parts = output.match(new RegExp(`[\\s\\S]{1,${maxLength}}`, 'g')) || [];
+          for (const part of parts) {
+            await sock.sendMessage(from, {
+              text: MESSAGES.exec.output.replace('{output}', part)
+            }, { quoted: msg });
+          }
+        } else {
+          await sock.sendMessage(from, {
+            text: MESSAGES.exec.output.replace('{output}', output)
+          }, { quoted: msg });
         }
-
-        const output = stdout.length > 4000 ? stdout.slice(0, 4000) + '...' : stdout;
-        king.sendMessage(fromJid, { text: `✅ Output:\n${output || 'No output.'}` }, { quoted: msg });
-      });
+        
+      } catch (error) {
+        await sock.sendMessage(from, {
+          text: MESSAGES.exec.error.replace('{error}', error.message)
+        }, { quoted: msg });
+      }
+    }
+  },
+  {
+    name: 'exec-help',
+    aliases: ['execinfo', 'shell-help'],
+    description: 'Shows available shell commands and examples for exec command.',
+    category: 'Owner',
+    ownerOnly: true,
+    execute: async ({ sock, from, text, msg }) => {
+      const helpText = MESSAGES.execHelp.info;
+      await sock.sendMessage(from, { text: helpText }, { quoted: msg });
     }
   }
 ];

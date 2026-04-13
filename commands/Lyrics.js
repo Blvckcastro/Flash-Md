@@ -1,64 +1,60 @@
-const axios = require('axios');
-const { franceking } = require('../main');
+import axios from 'axios'
+import { MESSAGES } from '../france/index.js'
 
-module.exports = {
+export const commands = [
+{
   name: 'lyrics',
-  description: 'Fetch and display lyrics of a song.',
+  aliases: ['lyric','songlyrics'],
+  description: 'Get song lyrics',
   category: 'Search',
-  get flashOnly() {
-    return franceking();
-  },
-  execute: async (king, msg, args) => {
-    const fromJid = msg.key.remoteJid;
-    const query = args.join(' ');
 
-    if (!query) {
-      return king.sendMessage(fromJid, {
-        text: 'Please provide a song name and artist...\nEg: lyrics not afraid Eminem'
-      }, { quoted: msg });
+  execute: async ({ sock, from, text, msg, config }) => {
+
+    const botName = config.BOT_NAME || 'Flash-MD'
+    const botVersion = config.BOT_VERSION || '3.0.0'
+
+    if (!text) {
+      return sock.sendMessage(from,{
+        text: MESSAGES.lyrics.noQuery
+          .replace('{botName}',botName)
+          .replace('{botVersion}',botVersion)
+      },{ quoted: msg })
     }
 
     try {
-      const apiURL = `https://lyricsapi.fly.dev/api/lyrics?q=${encodeURIComponent(query)}`;
-      const res = await axios.get(apiURL);
-      const data = res.data;
 
-      if (!data.success || !data.result || !data.result.lyrics) {
-        return king.sendMessage(fromJid, {
-          text: 'Lyrics not found for the provided query.'
-        }, { quoted: msg });
+      const url = `https://api.popcat.xyz/v2/lyrics?song=${encodeURIComponent(text)}`
+      const { data } = await axios.get(url)
+
+      if (data.error || !data.message) {
+        return sock.sendMessage(from,{
+          text: MESSAGES.lyrics.notFound
+        },{ quoted: msg })
       }
 
-      const { title, artist, image, link, lyrics } = data.result;
-      const shortLyrics = lyrics.length > 4096 ? lyrics.slice(0, 4093) + '...' : lyrics;
+      const song = data.message
 
-      const caption =
-        `🎶 *FLASH-MD LYRICS!*\n\n` +
-        `*Title:* ${title}\n` +
-        `*Artist:* ${artist}\n` +
-        `*Link:* ${link}\n\n` +
-        `📜 *Lyrics:*\n\n` +
-        `${shortLyrics}`;
+      const caption = MESSAGES.lyrics.result
+        .replace('{title}', song.title)
+        .replace('{artist}', song.artist)
+        .replace('{lyrics}', song.lyrics.slice(0,3500))
+        .replace('{url}', song.url)
 
-      await king.sendMessage(fromJid, {
-        image: { url: image },
-        caption,
-        contextInfo: {
-          forwardingScore: 1,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363238139244263@newsletter',
-            newsletterName: 'FLASH-MD',
-            serverMessageId: -1
-          }
-        }
-      }, { quoted: msg });
+      await sock.sendMessage(from,{
+        image:{ url: song.image },
+        caption
+      },{ quoted: msg })
 
     } catch (err) {
-      console.error('[LYRICS ERROR]', err);
-      await king.sendMessage(fromJid, {
-        text: 'An error occurred while fetching lyrics. Please try again later.'
-      }, { quoted: msg });
+
+      sock.sendMessage(from,{
+        text: MESSAGES.lyrics.error
+          .replace('{botName}',botName)
+          .replace('{botVersion}',botVersion)
+      },{ quoted: msg })
+
     }
+
   }
-};
+}
+]

@@ -1,72 +1,58 @@
-const { downloadMediaMessage } = require('@whiskeysockets/baileys');
-const vertexAI = require('../france/Gemini');
-const { franceking } = require('../main');
+import { downloadMediaMessage } from '@whiskeysockets/baileys';
+import { geminiVision2, MESSAGES } from '../france/index.js';
 
-module.exports = {
-  name: 'vision',
-  aliases: ['describe', 'analyze'],
-  description: 'Analyze and describe an image using Gemini AI.',
-  category: 'AI',
+export const commands = [
+  {
+    name: 'vision',
+    aliases: ['describe', 'analyze'],
+    description: 'Analyze a replied image using Gemini Vision 2.',
+    category: 'AI',
+    execute: async ({ sock, from, msg, args, config }) => {
+      const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+      const botName = config.BOT_NAME || 'Flash-MD';
 
-  get flashOnly() {
-    return franceking();
-  },
-
-  execute: async (king, msg, args, fromJid) => {
-    const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-
-    if (!quoted?.imageMessage) {
-      return king.sendMessage(fromJid, {
-        text: '🖼️ *Reply to an image to analyze it.*'
-      }, { quoted: msg });
-    }
-
-    try {
-      const imageBuffer = await downloadMediaMessage(
-        { message: { imageMessage: quoted.imageMessage } },
-        'buffer', {}, { logger: console }
-      );
-
-      const prompt = args.length ? args.join(' ') : 'Describe the image in detail.';
-      const ai = new vertexAI();
-
-      const result = await ai.chat(prompt, {
-        model: 'gemini-2.5-flash',
-        file_buffer: imageBuffer
-      });
-
-      const description = result?.[0]?.content?.parts?.[0]?.text;
-
-      if (!description) {
-        return king.sendMessage(fromJid, {
-          text: '⚠️ No response received from Gemini AI.'
+      if (!quoted || !quoted.imageMessage) {
+        return sock.sendMessage(from, {
+          text: MESSAGES.vision.noImage
         }, { quoted: msg });
       }
 
-      await king.sendMessage(fromJid, {
-        text: `🧠 *Image Analysis Result:*\n\n${description}`
-      }, { quoted: msg });
+      const query = args.join(' ');
+      if (!query) {
+        return sock.sendMessage(from, {
+          text: MESSAGES.vision.noQuery
+        }, { quoted: msg });
+      }
 
-    } catch (err) {
-      const status = err.response?.status;
-      const errorData = err.response?.data;
-      const message = err.message;
-      const stack = err.stack;
+      try {
+        const buffer = await downloadMediaMessage(
+          { message: { imageMessage: quoted.imageMessage } },
+          'buffer',
+          {},
+          { logger: console }
+        );
 
-      const errorMsg = [
-        '*❌ Error analyzing image:*',
-        status ? `*Status:* ${status}` : '',
-        message ? `*Message:* ${message}` : '',
-        errorData ? `*Data:* ${JSON.stringify(errorData, null, 2)}` : '',
-        stack ? `*Stack:* ${stack}` : ''
-      ].filter(Boolean).join('\n\n');
+        const base64Image = buffer.toString('base64');
+        const result = await geminiVision2(base64Image, query);
 
-      // Limit message to 4000 characters for WhatsApp safety
-      const trimmedError = errorMsg.length > 4000 ? errorMsg.slice(0, 4000) + '…' : errorMsg;
+        await sock.sendMessage(from, {
+          text: MESSAGES.vision.success.replace('{result}', result),
+          contextInfo: {
+            forwardingScore: 1,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+              newsletterJid: '120363238139244263@newsletter',
+              newsletterName: botName,
+              serverMessageId: -1
+            }
+          }
+        }, { quoted: msg });
 
-      await king.sendMessage(fromJid, {
-        text: trimmedError
-      }, { quoted: msg });
+      } catch (err) {
+        await sock.sendMessage(from, {
+          text: MESSAGES.vision.error.replace('{error}', err.message)
+        }, { quoted: msg });
+      }
     }
   }
-};
+];

@@ -1,98 +1,87 @@
-const fs = require('fs');
-const path = require('path');
-const { downloadMediaMessage } = require('@whiskeysockets/baileys');
-const { Sticker, StickerTypes } = require('wa-sticker-formatter');
-const { franceking } = require('../main');
+import { downloadMediaMessage } from '@whiskeysockets/baileys';
+import CONFIG from '../config.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const tempDir = path.join(__dirname, '..', 'temp');
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function getOwnerJid() {
+  if (!CONFIG.OWNER_NUMBER) return null
+  let ownerNumber = CONFIG.OWNER_NUMBER.toString()
+  ownerNumber = ownerNumber.replace(/[+\s]/g, '')
+  ownerNumber = ownerNumber.replace(/[^0-9]/g, '')
+  return `${ownerNumber}@s.whatsapp.net`
 }
 
-async function saveMedia(msgContent, type = 'file') {
-  const buffer = await downloadMediaMessage(msgContent, 'buffer', {}, { logger: console });
-  const filename = path.join(tempDir, `${Date.now()}-${type}.bin`);
-  fs.writeFileSync(filename, buffer);
-  return filename;
-}
-
-module.exports = {
-  name: 'save',
-  description: 'Save and resend a replied message (media/text/sticker).',
-  category: 'WhatsApp',
-  get flashOnly() {
-    return franceking();
-  },
-
-  execute: async (king, msg, args) => {
-    const recipientJid = king.user.id;
-    const myMedia = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-
-    if (!myMedia) {
-      return king.sendMessage(recipientJid, {
-        text: 'Reply to the message you want to save.'
-      }, { quoted: msg });
-    }
-
-    let sendMsg;
-
-    try {
-      if (myMedia.imageMessage) {
-        const mediaPath = await saveMedia({ message: { imageMessage: myMedia.imageMessage } }, 'image');
-        sendMsg = {
-          image: { url: mediaPath },
-          caption: myMedia.imageMessage?.caption ?? ''
-        };
-      } else if (myMedia.videoMessage) {
-        const mediaPath = await saveMedia({ message: { videoMessage: myMedia.videoMessage } }, 'video');
-        sendMsg = {
-          video: { url: mediaPath },
-          caption: myMedia.videoMessage?.caption ?? ''
-        };
-      } else if (myMedia.audioMessage) {
-        const mediaPath = await saveMedia({ message: { audioMessage: myMedia.audioMessage } }, 'audio');
-        sendMsg = {
-          audio: { url: mediaPath },
-          mimetype: 'audio/mp4'
-        };
-      } else if (myMedia.stickerMessage) {
-        const mediaPath = await saveMedia({ message: { stickerMessage: myMedia.stickerMessage } }, 'sticker');
-        const sticker = new Sticker(mediaPath, {
-          pack: 'FLASH-MD',
-          type: StickerTypes.CROPPED,
-          categories: ['🔥', '⭐'],
-          id: 'flash-md-sticker',
-          quality: 70,
-          background: 'transparent'
-        });
-        const stickerBuffer = await sticker.toBuffer();
-        sendMsg = { sticker: stickerBuffer };
-      } else if (myMedia?.conversation || myMedia?.extendedTextMessage) {
-        const textContent = myMedia.conversation || myMedia.extendedTextMessage?.text || 'Saved message';
-        sendMsg = { text: textContent };
-      } else {
-        return king.sendMessage(recipientJid, {
-          text: 'Unsupported message type.'
-        }, { quoted: msg });
+export const commands = [
+  {
+    name: 'save',
+    description: 'Save and forward a replied message to bot owner.',
+    category: 'WhatsApp',
+    execute: async ({ sock, from, text, msg }) => {
+      const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+      
+      if (!quoted) {
+        return sock.sendMessage(from, { text: '❌ Please reply to a message you want to save.' }, { quoted: msg });
       }
-
-      await king.sendMessage(recipientJid, sendMsg);
-
-      if (sendMsg.image || sendMsg.video || sendMsg.audio) {
-        const filePath = sendMsg.image?.url || sendMsg.video?.url || sendMsg.audio?.url;
-        try {
-          await fs.promises.unlink(filePath);
-        } catch (err) {
-          console.error('Failed to delete file:', filePath, err);
+      
+      const BOT_OWNER_ID = getOwnerJid();
+      
+      if (!BOT_OWNER_ID) {
+        return sock.sendMessage(from, { text: '❌ Owner number not configured in config.js' }, { quoted: msg });
+      }
+      
+      try {
+        const quotedMsg = { message: quoted };
+        
+        if (quoted.imageMessage) {
+          const buffer = await downloadMediaMessage(quotedMsg, 'buffer', {}, { logger: console });
+          await sock.sendMessage(BOT_OWNER_ID, { 
+            image: buffer, 
+            caption: quoted.imageMessage?.caption || '📸 Saved image' 
+          });
+        } 
+        else if (quoted.videoMessage) {
+          const buffer = await downloadMediaMessage(quotedMsg, 'buffer', {}, { logger: console });
+          await sock.sendMessage(BOT_OWNER_ID, { 
+            video: buffer, 
+            caption: quoted.videoMessage?.caption || '🎥 Saved video' 
+          });
+        } 
+        else if (quoted.audioMessage) {
+          const buffer = await downloadMediaMessage(quotedMsg, 'buffer', {}, { logger: console });
+          await sock.sendMessage(BOT_OWNER_ID, { 
+            audio: buffer, 
+            mimetype: 'audio/mp4',
+            ptt: quoted.audioMessage?.ptt || false
+          });
+        } 
+        else if (quoted.stickerMessage) {
+          const buffer = await downloadMediaMessage(quotedMsg, 'buffer', {}, { logger: console });
+          await sock.sendMessage(BOT_OWNER_ID, { sticker: buffer });
+        } 
+        else if (quoted.documentMessage) {
+          const buffer = await downloadMediaMessage(quotedMsg, 'buffer', {}, { logger: console });
+          await sock.sendMessage(BOT_OWNER_ID, { 
+            document: buffer, 
+            mimetype: quoted.documentMessage?.mimetype,
+            fileName: quoted.documentMessage?.fileName || 'document'
+          });
         }
+        else if (quoted?.conversation || quoted?.extendedTextMessage) {
+          const textContent = quoted.conversation || quoted.extendedTextMessage?.text || 'No text content';
+          await sock.sendMessage(BOT_OWNER_ID, { text: textContent });
+        } 
+        else {
+          return sock.sendMessage(from, { text: '❌ Unsupported message type. Please reply to an image, video, audio, sticker, document, or text message.' }, { quoted: msg });
+        }
+        
+      } catch (err) {
+        console.error('Save command error:', err);
+        await sock.sendMessage(from, { text: `❌ Failed to save message: ${err.message}` }, { quoted: msg });
       }
-
-    } catch (err) {
-      console.error('[SAVE COMMAND ERROR]', err);
-      await king.sendMessage(recipientJid, {
-        text: 'An error occurred while saving the message.'
-      }, { quoted: msg });
     }
   }
-};
-
+];

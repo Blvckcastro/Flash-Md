@@ -1,71 +1,83 @@
-const { franceking } = require('../main');
-const axios = require('axios');
-const fetch = require('node-fetch');
-const conf = require('../config');
-const translate = require('../france/Trt');
+import { 
+  translateText,
+  takeScreenshot,
+  getBibleVerse,
+  getRandomFact,
+  getRandomQuote,
+  defineTerm,
+  formatResponse,
+  MESSAGES
+} from '../france/index.js';
 
-module.exports = [
+import axios from 'axios';
+import fetch from 'node-fetch';
+
+export const commands = [
   {
     name: 'trt',
-    get flashOnly() {
-  return franceking();
-},
     aliases: ['translate'],
     description: 'Translate a replied message to the specified language.',
     category: 'General',
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-
+      
       if (!quoted) {
-        return king.sendMessage(fromJid, {
-          text: 'Please reply to the message you want to translate.\nExample: trt fr'
+        return sock.sendMessage(from, {
+          text: MESSAGES.translate.noReply.replace('{botName}', botName).replace('{botVersion}', botVersion)
         }, { quoted: msg });
       }
-
+      
+      const args = text.trim().split(/\s+/);
       if (args.length !== 1) {
-        return king.sendMessage(fromJid, {
-          text: 'Please provide only the language code.\nExample: trt fr'
+        return sock.sendMessage(from, {
+          text: MESSAGES.translate.usage.replace('{botName}', botName).replace('{botVersion}', botVersion)
         }, { quoted: msg });
       }
-
+      
       const lang = args[0].toLowerCase();
       const textToTranslate = quoted?.conversation || quoted?.extendedTextMessage?.text || '';
-
+      
       if (!textToTranslate) {
-        return king.sendMessage(fromJid, { text: 'The replied message does not contain text.' }, { quoted: msg });
+        return sock.sendMessage(from, { 
+          text: MESSAGES.translate.noText.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
-
+      
       try {
-        const translated = await translate(textToTranslate, { to: lang });
-        await king.sendMessage(fromJid, { text: translated }, { quoted: msg });
+        const translated = await translateText(textToTranslate, lang);
+        await sock.sendMessage(from, { 
+          text: `${translated}\n\n⚡ Powered by ${botName} ${botVersion}` 
+        }, { quoted: msg });
       } catch (error) {
-        await king.sendMessage(fromJid, {
-          text: 'Translation failed. Please check the language code.'
+        await sock.sendMessage(from, {
+          text: MESSAGES.translate.error.replace('{botName}', botName).replace('{botVersion}', botVersion)
         }, { quoted: msg });
       }
     }
   },
   {
     name: 'owner',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Sends contact card of the bot owner.',
     category: 'General',
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      const vcard =
-        'BEGIN:VCARD\n' +
-        'VERSION:3.0\n' +
-        `FN:${conf.ON}\n` +
-        'ORG:undefined;\n' +
-        `TEL;type=CELL;type=VOICE;waid=${conf.NUMBER}:${conf.NUMBER}\n` +
-        'END:VCARD';
-
-      await king.sendMessage(fromJid, {
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      const ownerNumber = config.OWNER_NUMBER || '254742063632';
+      const ownerName = config.OWNER_NAME || 'FLASH-MD Owner';
+      const formattedPhone = ownerNumber.replace(/\D/g, '');
+      
+      const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:${ownerName}
+ORG:${botName} ${botVersion};
+TEL;type=CELL;type=VOICE;waid=${formattedPhone}:${formattedPhone}
+END:VCARD`;
+      
+      await sock.sendMessage(from, {
         contacts: {
-          displayName: conf.ON,
+          displayName: `${ownerName} - ${botName} ${botVersion}`,
           contacts: [{ vcard }]
         }
       }, { quoted: msg });
@@ -73,81 +85,86 @@ module.exports = [
   },
   {
     name: 'ss',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Takes a screenshot of a website.',
     category: 'General',
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      const url = args.join(' ');
-      if (!url) {
-        return king.sendMessage(fromJid, { text: 'Provide a link to screenshot.' }, { quoted: msg });
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+
+      if (!text) {
+        return sock.sendMessage(
+          from,
+          { text: MESSAGES.screenshot.noUrl.replace('{botName}', botName).replace('{botVersion}', botVersion) },
+          { quoted: msg }
+        );
       }
 
       try {
-        const screenshotUrl = `https://api.diioffc.web.id/api/tools/sstab?url=${encodeURIComponent(url)}`;
-        const response = await axios.get(screenshotUrl, { responseType: 'arraybuffer' });
-
-        await king.sendMessage(fromJid, {
-          image: response.data,
-          caption: '*FLASH-MD WEB SCREENSHOT*'
-        }, { quoted: msg });
-      } catch (error) {
-        console.error('ssCommand error:', error);
-        await king.sendMessage(fromJid, { text: 'Failed to take website screenshot.' }, { quoted: msg });
+        const screenshotBuffer = await takeScreenshot(text);
+        
+        await sock.sendMessage(
+          from,
+          {
+            image: screenshotBuffer,
+            caption: `*${botName.toUpperCase()} WEB SCREENSHOT*\n${text}\n\n⚡ Powered by ${botName} ${botVersion}`
+          },
+          { quoted: msg }
+        );
+      } catch (e) {
+        await sock.sendMessage(
+          from,
+          { text: MESSAGES.screenshot.error.replace('{botName}', botName).replace('{botVersion}', botVersion) },
+          { quoted: msg }
+        );
       }
     }
   },
   {
     name: 'bible',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Get a Bible verse from a specific book, chapter, and verse.',
     category: 'General',
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      const verse = args.join(' ');
-
-      if (!verse) {
-        return king.sendMessage(fromJid, { text: 'Usage: bible john 3:16' }, { quoted: msg });
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      
+      if (!text) {
+        return sock.sendMessage(from, { 
+          text: MESSAGES.bible.usage.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
-
+      
       try {
-        const response = await fetch(`https://bible-api.com/${verse}`);
-        if (!response.ok) {
-          return king.sendMessage(fromJid, { text: 'Invalid reference. Try: bible john 3:16' }, { quoted: msg });
-        }
-
-        const data = await response.json();
-        const bibleText = `📖 *THE HOLY BIBLE*\n\n📜 ${data.reference}\n🔢 Verses: ${data.verses.length}\n📝 ${data.text}\n🌍 Language: ${data.translation_name}\n\n*Powered by FLASH-MD*`;
-
-        await king.sendMessage(fromJid, { text: bibleText }, { quoted: msg });
+        const bibleData = await getBibleVerse(text);
+        const bibleText = `📖 *THE HOLY BIBLE*\n\n📜 ${bibleData.reference}\n🔢 Verses: ${bibleData.verses.length}\n📝 ${bibleData.text}\n🌍 Language: ${bibleData.translation_name}\n\n⚡ Powered by ${botName} ${botVersion}`;
+        await sock.sendMessage(from, { text: bibleText }, { quoted: msg });
       } catch (error) {
-        await king.sendMessage(fromJid, { text: 'Error fetching verse.' }, { quoted: msg });
+        await sock.sendMessage(from, { 
+          text: MESSAGES.bible.error.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
     }
   },
   {
     name: 'poll',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Create a poll.',
     category: 'General',
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      const input = args.join(' ');
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      const input = text;
       const [question, optionsString] = input.split('/');
+      
       if (!question || !optionsString) {
-        return king.sendMessage(fromJid, { text: 'Usage: poll What is 2+2?/2,3,4' }, { quoted: msg });
+        return sock.sendMessage(from, { 
+          text: MESSAGES.poll.usage.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
-
+      
       const options = optionsString.split(',').map(opt => opt.trim());
-      await king.sendMessage(fromJid, {
+      
+      await sock.sendMessage(from, {
         poll: {
-          name: question.trim(),
+          name: `${question.trim()} - ${botName} ${botVersion}`,
           values: options
         }
       }, { quoted: msg });
@@ -155,89 +172,95 @@ module.exports = [
   },
   {
     name: 'fact',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Get a random fact.',
     category: 'User',
-    execute: async (king, msg) => {
-      const fromJid = msg.key.remoteJid;
-      const response = await fetch('https://nekos.life/api/v2/fact');
-      const data = await response.json();
-
-      await king.sendMessage(fromJid, {
-        text: `◆━━━━━━✦FACT✦━━━━━━◆\n◇ ${data.fact}\n◇ Powered by France King\n◇ KEEP USING FLASH-MD`
-      }, { quoted: msg });
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      
+      try {
+        const fact = await getRandomFact();
+        await sock.sendMessage(from, {
+          text: `◆━━━━━━✦FACT✦━━━━━━◆\n◇ ${fact}\n◇ Powered by ${botName} ${botVersion}\n◇ KEEP USING ${botName}`
+        }, { quoted: msg });
+      } catch (error) {
+        await sock.sendMessage(from, { 
+          text: MESSAGES.fact.error.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
+      }
     }
   },
   {
     name: 'quotes',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Get a random quote.',
     category: 'User',
-    execute: async (king, msg) => {
-      const fromJid = msg.key.remoteJid;
-      const response = await fetch('https://favqs.com/api/qotd');
-      const data = await response.json();
-      const quote = data.quote;
-
-      const message = `◆━━━━━━✦QUOTE✦━━━━━━◆\n◇ "${quote.body}"\n◇ — ${quote.author}\n◇ Powered by France King\n◇ KEEP USING FLASH-MD`;
-
-      await king.sendMessage(fromJid, { text: message }, { quoted: msg });
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      
+      try {
+        const quote = await getRandomQuote();
+        const message = `◆━━━━━━✦QUOTE✦━━━━━━◆\n◇ "${quote.body}"\n◇ — ${quote.author}\n◇ Powered by ${botName} ${botVersion}\n◇ KEEP USING ${botName}`;
+        await sock.sendMessage(from, { text: message }, { quoted: msg });
+      } catch (error) {
+        await sock.sendMessage(from, { 
+          text: MESSAGES.quote.error.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
+      }
     }
   },
   {
     name: 'define',
-    get flashOnly() {
-  return franceking();
-},
     description: 'Get a definition for a term.',
     category: 'Search',
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      if (!args.length) {
-        return king.sendMessage(fromJid, { text: 'Provide a term to define.' }, { quoted: msg });
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      
+      if (!text) {
+        return sock.sendMessage(from, { 
+          text: MESSAGES.define.usage.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
-
-      const query = args.join(' ');
+      
       try {
-        const { data } = await axios.get(`http://api.urbandictionary.com/v0/define?term=${query}`);
-        const def = data.list[0];
-        const text = `📚 Word: ${query}\n📝 Definition: ${def.definition.replace(/[]/g, '')}\n💡 Example: ${def.example.replace(/[]/g, '')}`;
-        return king.sendMessage(fromJid, { text }, { quoted: msg });
+        const definition = await defineTerm(text);
+        const responseText = `📚 Word: ${text}\n📝 Definition: ${definition.definition.replace(/[]/g, '')}\n💡 Example: ${definition.example.replace(/[]/g, '')}\n\n⚡ Powered by ${botName} ${botVersion}`;
+        return sock.sendMessage(from, { text: responseText }, { quoted: msg });
       } catch {
-        return king.sendMessage(fromJid, { text: `No definition found for "${query}".` }, { quoted: msg });
+        return sock.sendMessage(from, { 
+          text: MESSAGES.define.notFound.replace('{word}', text).replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
     }
   },
   {
     name: 'eval',
-    get flashOnly() {
-  return franceking();
-},
     aliases: ['evaluate'],
-    description: 'Evaluate JavaScript code (owner only).',
+    description: 'Evaluate JavaScript code.',
     category: 'General',
-    ownerOnly: true,
-    execute: async (king, msg, args) => {
-      const fromJid = msg.key.remoteJid;
-      if (!args.length) {
-        return king.sendMessage(fromJid, { text: 'Provide code to evaluate. Example: >2+2' }, { quoted: msg });
+    execute: async ({ sock, from, text, msg, config }) => {
+      const botName = config.BOT_NAME || 'Flash-MD';
+      const botVersion = config.BOT_VERSION || '3.0.0';
+      
+      if (!text) {
+        return sock.sendMessage(from, { 
+          text: MESSAGES.evalSimple.usage.replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
-
-      const code = args.join(' ');
-      if (code.startsWith('>')) {
-        try {
-          let result = await eval(code.slice(1));
-          if (typeof result !== 'string') {
-            result = require('util').inspect(result);
-          }
-          await king.sendMessage(fromJid, { text: result }, { quoted: msg });
-        } catch (err) {
-          await king.sendMessage(fromJid, { text: `Error: ${err.message}` }, { quoted: msg });
+      
+      try {
+        let result = await eval(text);
+        if (typeof result !== 'string') {
+          result = require('util').inspect(result);
         }
+        await sock.sendMessage(from, { 
+          text: `${String(result)}\n\n⚡ Powered by ${botName} ${botVersion}` 
+        }, { quoted: msg });
+      } catch (err) {
+        await sock.sendMessage(from, { 
+          text: MESSAGES.evalSimple.error.replace('{error}', err.message).replace('{botName}', botName).replace('{botVersion}', botVersion) 
+        }, { quoted: msg });
       }
     }
   }

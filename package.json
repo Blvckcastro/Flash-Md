@@ -5,12 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --loader ./preload.js index.js",
-    "dev": "node --watch index.js"
+    "start": "node flash.js && node --loader ./preload.js index.js",
+    "dev": "node --watch index.js",
+    "postinstall": "npm rebuild sharp --force"
   },
   "engines": {
-    "node": "20.x",
-    "npm": "9.x"
+    "node": ">=20.x <=24.x",
+    "npm": ">=9.x"
   },
   "keywords": [
     "whatsapp",
@@ -57,15 +58,18 @@
     "node-fetch": "^3.3.2",
     "simple-xml-to-json": "1.0.0",
     "nayan-api-servers": "^2.4.8",
-    "nayan-media-downloaders": "^0.1.8"
+    "nayan-media-downloaders": "^0.1.8",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
   "overrides": {
-    "simple-xml-to-json": "1.0.0"
+    "simple-xml-to-json": "1.0.0",
+    "sharp": "^0.33.5"
   },
   "resolutions": {
-    "simple-xml-to-json": "1.0.0"
+    "simple-xml-to-json": "1.0.0",
+    "sharp": "^0.33.5"
   }
 }

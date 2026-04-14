@@ -142,61 +142,66 @@ export const commands = [
       await sock.sendMessage(from, { image: { url: pp }, caption: MESSAGES.user.getpp.caption }, { quoted: msg });
     }
   },
-  {
-    name: 'whois',
-    description: 'User information',
-    category: 'USER',
-    execute: async ({ sock, from, msg }) => {
-      const targetJid = msg.message?.extendedTextMessage?.contextInfo?.participant || getSenderJid(msg);
-      const number = targetJid.split('@')[0];
-      
-      let pp;
-      try {
-        pp = await sock.profilePictureUrl(targetJid, 'image');
-      } catch {
-        pp = MESSAGES.user.whois.defaultImage;
-      }
-      
-      let about = 'No status';
-      let setOn = 'Unknown';
-      let setAt = 'Unknown';
-      
-      try {
-        const st = await sock.fetchStatus(targetJid);
-        if (Array.isArray(st) && st[0]?.status?.status) {
-          about = st[0].status.status;
-          const d = new Date(st[0].status.setAt);
-          
-          const day = String(d.getDate()).padStart(2, '0');
-          const month = String(d.getMonth() + 1).padStart(2, '0');
-          const year = d.getFullYear();
-          
-          const hours = String(d.getHours()).padStart(2, '0');
-          const minutes = String(d.getMinutes()).padStart(2, '0');
-          const seconds = String(d.getSeconds()).padStart(2, '0');
-          
-          setOn = `${day}/${month}/${year}`;
-          setAt = `${hours}:${minutes}:${seconds}`;
-        }
-      } catch {}
-      
-      const caption = MESSAGES.user.whois.info
-        .replace('{about}', about)
-        .replace('{number}', number)
-        .replace('{setOn}', setOn)
-        .replace('{setAt}', setAt);
-      
-      await sock.sendMessage(
-        from,
-        {
-          image: { url: pp },
-          caption,
-          mentions: [targetJid]
-        },
-        { quoted: msg }
-      );
+{
+  name: 'whois',
+  description: 'User information',
+  category: 'USER',
+  execute: async ({ sock, from, msg }) => {
+    const targetJid = msg.message?.extendedTextMessage?.contextInfo?.participant || getSenderJid(msg);
+    const number = targetJid.split('@')[0];
+    
+    let pp;
+    try {
+      pp = await sock.profilePictureUrl(targetJid, 'image');
+    } catch {
+      pp = MESSAGES.user.whois.defaultImage;
     }
-  },
+    
+    let about = 'No status';
+    let setOn = 'Unknown';
+    let setAt = 'Unknown';
+    
+    try {
+      const statusArray = await sock.fetchStatus(targetJid);
+      console.log('[WHOIS] Status array:', statusArray);
+      
+      if (statusArray && statusArray[0] && statusArray[0].status) {
+        const statusObj = statusArray[0].status;
+        about = statusObj.status || 'No status';
+        
+        if (statusObj.setAt) {
+          const d = new Date(statusObj.setAt);
+          if (!isNaN(d.getTime())) {
+            setOn = d.toLocaleDateString('en-GB');
+            setAt = d.toLocaleTimeString('en-GB');
+          }
+        }
+      }
+    } catch (err) {
+      console.log('[WHOIS] fetchStatus error:', err.message);
+    }
+    
+    let name = msg.pushName || number;
+    try {
+      const contact = await sock.onWhatsApp(targetJid);
+      if (contact && contact[0] && contact[0].notify) {
+        name = contact[0].notify;
+      }
+    } catch {}
+    
+    const caption = `👤 *ABOUT*\n\n*${about}*\n\n*Name:* @${number}\n\n📅 *Set on:* ${setOn}\n🕒 *Set at:* ${setAt}\n\n*_FLASH-MD V-3.0.0_*`;
+    
+    await sock.sendMessage(
+      from,
+      {
+        image: { url: pp },
+        caption,
+        mentions: [targetJid]
+      },
+      { quoted: msg }
+    );
+  }
+}, 
   {
     name: 'mygroups',
     description: 'List all groups',

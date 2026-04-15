@@ -1,10 +1,23 @@
+import acrcloud from 'acrcloud';
 import yts from 'yt-search';
 import fs from 'fs';
 import path from 'path';
-import { downloadContentFromMessage, identifySong, MESSAGES } from '../france/index.js';
+import { downloadContentFromMessage } from '@whiskeysockets/baileys';
+import { MESSAGES, API_CONFIG } from '../france/index.js';
 
 const TEMP_DIR = path.join(process.cwd(), 'temp');
 if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
+
+async function identifySong(buffer) {
+  const acr = new acrcloud({
+    host: API_CONFIG.acrcloud.host,
+    access_key: API_CONFIG.acrcloud.access_key,
+    access_secret: API_CONFIG.acrcloud.access_secret
+  });
+  const result = await acr.identify(buffer);
+  if (result.status.code !== 0 || !result.metadata?.music?.length) return null;
+  return result.metadata.music[0];
+}
 
 async function getBuffer(message, type) {
   const stream = await downloadContentFromMessage(message, type);
@@ -20,7 +33,7 @@ export const commands = [
     description: 'Identify a song from an audio or video clip.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'FLASH-MD';
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
       
       if (!quoted || (!quoted.audioMessage && !quoted.videoMessage)) {
@@ -66,7 +79,10 @@ export const commands = [
         }
         if (release_date) {
           const [year, month, day] = release_date.split('-');
-          response += MESSAGES.shazam.release.replace('{day}', day).replace('{month}', month).replace('{year}', year);
+          response += MESSAGES.shazam.release
+            .replace('{day}', day)
+            .replace('{month}', month)
+            .replace('{year}', year);
         }
         if (ytSearch?.videos?.[0]?.url) {
           response += MESSAGES.shazam.youtube.replace('{url}', ytSearch.videos[0].url);

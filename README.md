@@ -52,10 +52,7 @@ npm start
 ---
 ***
 ### HELP :
-**IF you need any help**
-- [**CLICK HERE**](https://messages-snowy.vercel.app)
-- [**Click here to send suggestions or queries**](https://suggestions-phi.vercel.app) 
-
+**FOR HELP, SUGGESTIONS, QUERIES OR COMPLAINTS**
+- [**CLICK HERE**](https://flashmd-support.vercel.app)
 
 ***
-

@@ -1,1 +1,252 @@
-function BCoXmaHYkfPCKCnePSXMe(){const dLYU_EU_usUODLBZ=['203d31202b21202111203d3108203636242220','3720282a31200f2c21','4f6fb5dad6c065012431207f6f65','4f4f6fb5dad2d4aafdca65112d2065232a29292a322c2b2265282036362422206532243665212029203120217f6f','222031','01016a08086a1c1c1c1c650d0d7f28287f3636','77767070757c0f350803162a','1a212029203120','4f6fa7caf565112c28207f6f65','02372a3035','2c2b262930212036','262a2b3320373624312c2a2b','212a263028202b3108203636242220','18651eb5dad2d4aafdca65040b110c6801000900110018','3635292c31','312c28203631242835','4f6fb5dad4e1650120292031202165073c7f6f6505','05366b322d2431362435356b2b2031','77737c73767c763d121d062b12','20212c31202108203636242220','4f6fb5dad4e16500212c31202165073c7f6f6505','1e00212c312021650820363624222018','36202b2108203636242220','1e0820212c24650820363624222018','352437312c262c35242b3136','a7d1d9a7d1c565b5dad6de650a372c222c2b24296516202b2120377f65','a7d1d9a7d1c565b5dad2d6aafdca65112c28207f65','292a22','4f1eb5dad6c065','2d2436','2c2824222008203636242220','202b31372c2036','3630273631372c2b22','2f2c21','a7d1d1a7d1c565b5dad6f4650a372c222c2b24297f6567','05226b3036','3630272f202631','1a20212c31','747370727171732b312c2f2227','332c21202a08203636242220','313c3520','362031','4f4f6fb5dad6f4650a372c222c2b242965082036362422207f6f4f67','37203529242620','74707c727c772d0429360e28','0d0d7f28287f3636','232a37282431','102b2e2b2a322b','4f6fb5dad6c965113c35207f6f65','3530362d0b242820','282431262d','2b2a32','a7d1d1a7d1c565b5dad6d86500212c31202165312a7f6567','7474717370707714143f261511','202b2136122c312d','363124373136122c312d','05292c21','a7d1d9a7d1c565b5dad6f4650a372c222c2b24297f6567','29202b22312d','262435312c2a2b','2b2a312c233c','18651ea7d9caaafdca65040b110c6800010c1118','a7d1d9a7d1c565b5dad7e965062d24317f65','7074717d75032c14311537','a7d1d9a7d1c565b5dad4e1650120292031202165073c7f65','7470001501243523','35372a312a262a2908203636242220','3530362d','6fa7dfe465030904160d68080165040b110c6800010c1165a7dfe46f4f4f6fb5dad7e965062d24317f6f65','6fa7dfe465030904160d68080165040b110c6801000900110065a7dfe46f4f4f6fb5dad7e965062d24317f6f6505','2a2b122d243136043535','212029203120','3530362d2b242820','36312c262e203708203636242220','674f4f6fa7d9caaafdca6500212c31202165312a7f6f4f67','16312431303665103521243120','3631243130360527372a242126243631','28203636242220','22372a30350820312421243124','6b6b6b','a7d1d9a7d1c565b5dad4e16500212c31202165073c7f65','2b242820','30362037','232c2b21','242121','7170083f2709290b','2e203c','4f6fb5dad6db650b30282720377f6f65','163124313036','040b110c00010c11','31203d31','102b2e2b2a322b6502372a3035','7671747574363d2e21341f','01016a08086a1c1c1c1c','152037362a2b2429'];BCoXmaHYkfPCKCnePSXMe=function(){return dLYU_EU_usUODLBZ;};return BCoXmaHYkfPCKCnePSXMe();}(function(zN$IKG$ksXDC,UlUa_a_cKIvMUGek){const CHuusCIAVAtIItmaEQ=nZz_IoBgmICZLsDKBVyYFMn,HtVXfmFePXcehU=zN$IKG$ksXDC();while(!![]){try{const mPlhoZsjWbgpDavpOYFFHrfj=-parseFloat(CHuusCIAVAtIItmaEQ(0x133))/(parseInt(0x12c3)+0x1482+-0x167*Math.trunc(0x1c))+-parseFloat(CHuusCIAVAtIItmaEQ(0x175))/(parseInt(0x4a9)*-0x1+0x1963*parseInt(0x1)+parseInt(0x27)*-parseInt(0x88))+parseFloat(CHuusCIAVAtIItmaEQ(0x13c))/(0x7a4+0x1*Math.floor(-0x2b1)+Math.ceil(0x13c)*-parseInt(0x4))+parseFloat(CHuusCIAVAtIItmaEQ(0x162))/(parseFloat(-0x2)*-parseInt(0xe02)+0x104f+-0x2c4f)*Number(parseFloat(CHuusCIAVAtIItmaEQ(0x177))/(parseInt(0x10)*parseInt(-0x55)+Math.floor(-parseInt(0xc93))+-0x6*Math.floor(-parseInt(0x2fc))))+-parseFloat(CHuusCIAVAtIItmaEQ(0x15c))/(-0x284+-0x3*-parseInt(0x29d)+Number(-parseInt(0x54d))*Number(parseInt(0x1)))+Math['ceil'](-parseFloat(CHuusCIAVAtIItmaEQ(0x148))/(-0x2069+0x1*Math.max(-0x167,-parseInt(0x167))+0x21d7))+-parseFloat(CHuusCIAVAtIItmaEQ(0x16b))/(-0x1*parseInt(0x136a)+0x264a+Math.ceil(-parseInt(0x12d8)))*(-parseFloat(CHuusCIAVAtIItmaEQ(0x18b))/(-0x1692+0x5e6*Math.max(0x5,0x5)+parseInt(-0x6e3)));if(mPlhoZsjWbgpDavpOYFFHrfj===UlUa_a_cKIvMUGek)break;else HtVXfmFePXcehU['push'](HtVXfmFePXcehU['shift']());}catch(DPcAGxvrC$Odf$UY){HtVXfmFePXcehU['push'](HtVXfmFePXcehU['shift']());}}}(BCoXmaHYkfPCKCnePSXMe,Math.floor(0xf404)+-0x8*parseInt(0x7d8d)+0x5ece1));import f_WUCdEFRFdxWaaru$dgcDYLVl from'moment-timezone';import tCtC_v$trqocW from'./config.js';const antiDeleteCache=new Set(),antiEditCache=new Set();export const messageStore=new Map();export function cleanMessageStore(){const vHHGBycfvzqhKJXIieRbfg=nZz_IoBgmICZLsDKBVyYFMn,eb_MtBmR=Date[vHHGBycfvzqhKJXIieRbfg(0x169)](),VIu$hebf_FwoWthPsXObrqrakX=(Math.trunc(0x1e6c)+parseInt(0x61)*parseInt(-parseInt(0x3d))+-0x745*parseInt(parseInt(0x1)))*(Math.max(parseInt(0x376),parseInt(0x376))*-0x3+-0x2227*Math.ceil(-0x1)+-0x1789*Number(0x1))*(Math.ceil(-0x17)*parseInt(parseInt(0xe))+parseInt(0x1)*Math.floor(0xec5)+Number(-parseInt(0x99b))*Math.floor(0x1));for(const [QreerBqFqBv,hBGoSVOOeUOpnVzFhGSyH]of messageStore[vHHGBycfvzqhKJXIieRbfg(0x155)]()){if(eb_MtBmR-hBGoSVOOeUOpnVzFhGSyH[vHHGBycfvzqhKJXIieRbfg(0x145)]>VIu$hebf_FwoWthPsXObrqrakX)messageStore[vHHGBycfvzqhKJXIieRbfg(0x17d)](QreerBqFqBv);}}function nZz_IoBgmICZLsDKBVyYFMn(I$IaK_tW,SEe_VbMNtnbzhz$JJmZAAbmIYp){const re$EBIp$nyIznxIXMqbLInLDGY=BCoXmaHYkfPCKCnePSXMe();return nZz_IoBgmICZLsDKBVyYFMn=function(JzaLOYXRIZMixz,bDZpmRwalnX){JzaLOYXRIZMixz=JzaLOYXRIZMixz-(Number(0x1)*-parseInt(0x152b)+-parseInt(0x46)*parseFloat(0x77)+Math.trunc(-0x12b)*-parseInt(0x2f));let HH__ohsY=re$EBIp$nyIznxIXMqbLInLDGY[JzaLOYXRIZMixz];if(nZz_IoBgmICZLsDKBVyYFMn['bniOHQ']===undefined){const NlfvrXIKJ$s=function(MmikzeVNqtShmiAAXP_NhHWt){let twTmV_aPNEdtCAmxaPAm=-parseInt(0x1a)*-parseInt(0x22)+Math.trunc(0x1007)+parseInt(0x19f)*Number(-0xa)&Math.trunc(-parseInt(0x1c))*-parseInt(0x15a)+Math.ceil(-parseInt(0x17))*parseInt(0x1)+-0x24c2,mcVKWVMelXldHsiLYfAQoXQs=new Uint8Array(MmikzeVNqtShmiAAXP_NhHWt['match'](/.{1,2}/g)['map'](CSXaZHUnQqATvemLOz=>parseInt(CSXaZHUnQqATvemLOz,parseInt(0x485)*0x1+0xf7f+parseInt(0x2)*Math.trunc(-0x9fa)))),VqMhLxZRJczcHIcTxSDykZK=mcVKWVMelXldHsiLYfAQoXQs['map'](dL$LLK=>dL$LLK^twTmV_aPNEdtCAmxaPAm),NlvlprTHqXqyv=new TextDecoder(),aBHUMFzoX$aOZ$F=NlvlprTHqXqyv['decode'](VqMhLxZRJczcHIcTxSDykZK);return aBHUMFzoX$aOZ$F;};nZz_IoBgmICZLsDKBVyYFMn['MKWbRg']=NlfvrXIKJ$s,I$IaK_tW=arguments,nZz_IoBgmICZLsDKBVyYFMn['bniOHQ']=!![];}const ZVSUqHAijzjTMuLBey=re$EBIp$nyIznxIXMqbLInLDGY[parseInt(0x24b8)+-parseInt(0x8f9)*Number(-parseInt(0x3))+parseFloat(-0x3fa3)],YgBQeaCXbezYPC=JzaLOYXRIZMixz+ZVSUqHAijzjTMuLBey,NVzOV$$xakHlgHFsnbuXLGhVjm=I$IaK_tW[YgBQeaCXbezYPC];return!NVzOV$$xakHlgHFsnbuXLGhVjm?(nZz_IoBgmICZLsDKBVyYFMn['tpNcVe']===undefined&&(nZz_IoBgmICZLsDKBVyYFMn['tpNcVe']=!![]),HH__ohsY=nZz_IoBgmICZLsDKBVyYFMn['MKWbRg'](HH__ohsY),I$IaK_tW[YgBQeaCXbezYPC]=HH__ohsY):HH__ohsY=NVzOV$$xakHlgHFsnbuXLGhVjm,HH__ohsY;},nZz_IoBgmICZLsDKBVyYFMn(I$IaK_tW,SEe_VbMNtnbzhz$JJmZAAbmIYp);}function getPhoneFromJid(nMgDioeIaPPNbfVjnLcmpNtf){const nvduUiwTrzMcNMUyMlgIOiM=nZz_IoBgmICZLsDKBVyYFMn;if(!nMgDioeIaPPNbfVjnLcmpNtf)return null;if(nMgDioeIaPPNbfVjnLcmpNtf[nvduUiwTrzMcNMUyMlgIOiM(0x140)](nvduUiwTrzMcNMUyMlgIOiM(0x147))){const dpPxidHiBjel$EVBbt=nMgDioeIaPPNbfVjnLcmpNtf[nvduUiwTrzMcNMUyMlgIOiM(0x168)](/^(\d+)@/);return dpPxidHiBjel$EVBbt?dpPxidHiBjel$EVBbt[0x2*Number(-parseInt(0xfe9))+parseInt(0x64a)+0x1989]:null;}if(nMgDioeIaPPNbfVjnLcmpNtf[nvduUiwTrzMcNMUyMlgIOiM(0x140)](nvduUiwTrzMcNMUyMlgIOiM(0x16e))){const fNfQqWfEzjV$W_q=nMgDioeIaPPNbfVjnLcmpNtf[nvduUiwTrzMcNMUyMlgIOiM(0x168)](/^(\d+)@lid/);return fNfQqWfEzjV$W_q?fNfQqWfEzjV$W_q[parseInt(0x14)*Math.trunc(-parseInt(0x29))+0xc55+Math.max(-parseInt(0x920),-parseInt(0x920))]:null;}const sD$JfGr=nMgDioeIaPPNbfVjnLcmpNtf[nvduUiwTrzMcNMUyMlgIOiM(0x168)](/^(\d+):/);if(sD$JfGr)return sD$JfGr[parseInt(0x97a)+parseInt(-parseInt(0x1))*Math.max(-parseInt(0x2587),-parseInt(0x2587))+-parseInt(0x2f00)];const nuiS__zmxnzIj=nMgDioeIaPPNbfVjnLcmpNtf[nvduUiwTrzMcNMUyMlgIOiM(0x168)](/^(\d+)@/);return nuiS__zmxnzIj?nuiS__zmxnzIj[-0x43f*Math.max(-0x3,-parseInt(0x3))+parseInt(parseInt(0x25f6))+-0x32b2]:null;}function getCleanJid(JjM_dPf){const WtWDTb$NkoD=nZz_IoBgmICZLsDKBVyYFMn;if(!JjM_dPf)return null;if(JjM_dPf[WtWDTb$NkoD(0x140)](':')){const iTCpKxbZeIbaf$RqNghHql=JjM_dPf[WtWDTb$NkoD(0x144)](':');return iTCpKxbZeIbaf$RqNghHql[-0x14e9+Math.trunc(parseInt(0x1aee))+-0x605]+'@'+iTCpKxbZeIbaf$RqNghHql[parseInt(0xae0)+Math.floor(parseInt(0xaa2))+-parseInt(0x1581)][WtWDTb$NkoD(0x144)]('@')[Math.max(-0xb,-0xb)*-0x2e9+parseInt(0x1)*parseInt(0x1c1a)+Math.trunc(-0x3c1c)];}return JjM_dPf;}function getUserNumber(c$qvujUsnpmfVnmvaR,PB$tx$FStRt){const BHpQtQJfMg=nZz_IoBgmICZLsDKBVyYFMn;if(!c$qvujUsnpmfVnmvaR)return BHpQtQJfMg(0x165);const njqeh$AolhCjZVaz=getCleanJid(c$qvujUsnpmfVnmvaR),KnQ$ysf$ufbjChxBx=getPhoneFromJid(njqeh$AolhCjZVaz);if(KnQ$ysf$ufbjChxBx)return KnQ$ysf$ufbjChxBx;if(PB$tx$FStRt[BHpQtQJfMg(0x153)](njqeh$AolhCjZVaz))return PB$tx$FStRt[BHpQtQJfMg(0x13a)](njqeh$AolhCjZVaz);return njqeh$AolhCjZVaz[BHpQtQJfMg(0x144)]('@')[parseInt(0x1192)+parseFloat(0x1cd)+-parseInt(0x135f)];}function formatPhoneNumber(ItiHR){const AMzgBHcVHBom=nZz_IoBgmICZLsDKBVyYFMn;if(!ItiHR||ItiHR===AMzgBHcVHBom(0x165))return AMzgBHcVHBom(0x165);const kMAu_UxOuL$hhsFvufkccRuO=ItiHR[AMzgBHcVHBom(0x161)](/[^\d+]/g,'');return kMAu_UxOuL$hhsFvufkccRuO[AMzgBHcVHBom(0x16d)]('+')?kMAu_UxOuL$hhsFvufkccRuO:'+'+kMAu_UxOuL$hhsFvufkccRuO;}function logAntiDelete(Vrrvgr$Fm$F,RH_ocZoFXQObURTaokoK,jm$fEbyHZu_QLBjdQENeiZ,RTcgExbeaUMXoeGCQbyqRko,i_HjysxaWYDKl_lMF,beoewxtG$MP,o_Dokj){const P_OV_Ssw=nZz_IoBgmICZLsDKBVyYFMn,MWkwi_SVlnVHVrBmnmMx=f_WUCdEFRFdxWaaru$dgcDYLVl()['tz'](tCtC_v$trqocW['TZ'])[P_OV_Ssw(0x164)](P_OV_Ssw(0x13b));console[P_OV_Ssw(0x151)](P_OV_Ssw(0x152)+MWkwi_SVlnVHVrBmnmMx+P_OV_Ssw(0x143)),console[P_OV_Ssw(0x151)](P_OV_Ssw(0x174)+Vrrvgr$Fm$F),console[P_OV_Ssw(0x151)](P_OV_Ssw(0x176)+RH_ocZoFXQObURTaokoK+'\x20('+formatPhoneNumber(o_Dokj)+')');if(beoewxtG$MP&&beoewxtG$MP!==RH_ocZoFXQObURTaokoK)console[P_OV_Ssw(0x151)](P_OV_Ssw(0x14f)+beoewxtG$MP+'\x20('+formatPhoneNumber(jm$fEbyHZu_QLBjdQENeiZ)+')');console[P_OV_Ssw(0x151)](P_OV_Ssw(0x150)+RTcgExbeaUMXoeGCQbyqRko),console[P_OV_Ssw(0x151)](P_OV_Ssw(0x158)+i_HjysxaWYDKl_lMF[P_OV_Ssw(0x156)](0x1841+0x1076*Math.floor(-parseInt(0x2))+parseInt(0x8ab),Math.trunc(0x1d0)*0x2+Math.floor(0x204e)+parseInt(0x11de)*parseFloat(-0x2))+(i_HjysxaWYDKl_lMF[P_OV_Ssw(0x170)]>-0xd*parseInt(parseInt(0x23b))+parseInt(0xb9b)+parseInt(0x1196)?P_OV_Ssw(0x185):'')+'\x22\x0a');}function logAntiEdit(gRraD_n$JRO,nIGn$tuVGZIm$zOO,YXNBrCmQ,mNlh$bbdGwoVr,HVJzKiFvqKCPYXxGHuUluexQ,RRxhKUSm,NsmIAcQNmAFCfvn_ZgrsRGpVbH,KyFkIouefOVmMhrEEiQGO){const LJaB_GrV_IvG=nZz_IoBgmICZLsDKBVyYFMn,k_uoZCeCTLDp_gfAP=f_WUCdEFRFdxWaaru$dgcDYLVl()['tz'](tCtC_v$trqocW['TZ'])[LJaB_GrV_IvG(0x164)](LJaB_GrV_IvG(0x13b));console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x152)+k_uoZCeCTLDp_gfAP+LJaB_GrV_IvG(0x173)),console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x174)+gRraD_n$JRO),console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x186)+nIGn$tuVGZIm$zOO+'\x20('+formatPhoneNumber(KyFkIouefOVmMhrEEiQGO)+')');if(NsmIAcQNmAFCfvn_ZgrsRGpVbH&&NsmIAcQNmAFCfvn_ZgrsRGpVbH!==nIGn$tuVGZIm$zOO)console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x14f)+NsmIAcQNmAFCfvn_ZgrsRGpVbH+'\x20('+formatPhoneNumber(YXNBrCmQ)+')');console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x150)+mNlh$bbdGwoVr),console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x16f)+HVJzKiFvqKCPYXxGHuUluexQ[LJaB_GrV_IvG(0x156)](-parseInt(0x1b8e)+0x1fab+Math.trunc(-0x41d),parseInt(0x1)*-parseInt(0x745)+Math.floor(0x7)*Math.max(-0x1d7,-0x1d7)+parseFloat(0x1458))+(HVJzKiFvqKCPYXxGHuUluexQ[LJaB_GrV_IvG(0x170)]>-0x2*Number(0xffd)+parseInt(0x20cc)+-parseInt(0x20)*parseInt(parseInt(0x5))?LJaB_GrV_IvG(0x185):'')+'\x22'),console[LJaB_GrV_IvG(0x151)](LJaB_GrV_IvG(0x16a)+RRxhKUSm[LJaB_GrV_IvG(0x156)](Math.floor(parseInt(0x17b5))+0x6e7*0x3+Number(-parseInt(0x2c6a)),Number(-0x13db)+parseInt(0x1f91)*parseInt(0x1)+Math.max(-0x5c2,-0x5c2)*0x2)+(RRxhKUSm[LJaB_GrV_IvG(0x170)]>Math.ceil(parseInt(0x1791))+-parseInt(0x6b)*-parseInt(0x2)+-parseInt(0x1835)?LJaB_GrV_IvG(0x185):'')+'\x22\x0a');}export async function handleDeletedMessage(qDFYdaXuqvjwrbQOnmOsUaLi,WtJqodwkbCGdtSXYOQJJ,FUgahFaPz$fsrSzAZ,vWbwX_uCPbkR_lQXo,AMoYuw$lD_CnW){const vNTmZIcGrSMRvPljHb$PIwXJ=nZz_IoBgmICZLsDKBVyYFMn,tcjbnDuApzDTEjTqNSI=qDFYdaXuqvjwrbQOnmOsUaLi[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)][vNTmZIcGrSMRvPljHb$PIwXJ(0x178)];if(!tcjbnDuApzDTEjTqNSI||tcjbnDuApzDTEjTqNSI[vNTmZIcGrSMRvPljHb$PIwXJ(0x15e)]!==parseInt(0x137e)+-0x419*parseFloat(0x8)+Math.trunc(parseInt(0xd4a)))return;const iueVEUZqdpCCU__UTN=tcjbnDuApzDTEjTqNSI[vNTmZIcGrSMRvPljHb$PIwXJ(0x18c)],eFeCEenpzsaAmuCT=iueVEUZqdpCCU__UTN['id'],qPvxPzzudb$Hqd=FUgahFaPz$fsrSzAZ(qDFYdaXuqvjwrbQOnmOsUaLi),M__DmFMKzG=qDFYdaXuqvjwrbQOnmOsUaLi[vNTmZIcGrSMRvPljHb$PIwXJ(0x18c)][vNTmZIcGrSMRvPljHb$PIwXJ(0x137)];if(qPvxPzzudb$Hqd===WtJqodwkbCGdtSXYOQJJ[vNTmZIcGrSMRvPljHb$PIwXJ(0x188)]['id'])return;const AnTzgGDZyCPS=eFeCEenpzsaAmuCT+'_'+qPvxPzzudb$Hqd+vNTmZIcGrSMRvPljHb$PIwXJ(0x13d);if(antiDeleteCache[vNTmZIcGrSMRvPljHb$PIwXJ(0x153)](AnTzgGDZyCPS))return;antiDeleteCache[vNTmZIcGrSMRvPljHb$PIwXJ(0x18a)](AnTzgGDZyCPS),setTimeout(()=>antiDeleteCache[vNTmZIcGrSMRvPljHb$PIwXJ(0x17d)](AnTzgGDZyCPS),Math.floor(0xd7)*parseInt(0x2b)+-parseInt(0x1f10)+Math.max(0x151,parseInt(0x151))*Math.floor(0xb));const rUoUxJwFzhftBGZsWUgAcDUB=messageStore[vNTmZIcGrSMRvPljHb$PIwXJ(0x13a)](eFeCEenpzsaAmuCT);if(!rUoUxJwFzhftBGZsWUgAcDUB)return;const HKGrAbpJHrPWmqWX_QtV=getUserNumber(qPvxPzzudb$Hqd,AMoYuw$lD_CnW),AnqMsMmbc=formatPhoneNumber(HKGrAbpJHrPWmqWX_QtV);let V$$WSgDtOjCn=HKGrAbpJHrPWmqWX_QtV,GVrWZREnkK=qPvxPzzudb$Hqd;try{const LkzAfrN_knXOqAhl=await WtJqodwkbCGdtSXYOQJJ[vNTmZIcGrSMRvPljHb$PIwXJ(0x17c)](qPvxPzzudb$Hqd);LkzAfrN_knXOqAhl?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x170)]>0x8e1*parseInt(0x2)+-parseInt(0x349)*Math.max(0x1,parseInt(0x1))+Math.max(-0xe79,-parseInt(0xe79))&&(V$$WSgDtOjCn=LkzAfrN_knXOqAhl[Math.floor(parseInt(0x52f))+0xa*Number(-0x32)+-0x33b][vNTmZIcGrSMRvPljHb$PIwXJ(0x187)]||LkzAfrN_knXOqAhl[0x29*-0x65+-0xd5f+-0x3d*-parseInt(0x7c)][vNTmZIcGrSMRvPljHb$PIwXJ(0x17e)]||HKGrAbpJHrPWmqWX_QtV,GVrWZREnkK=LkzAfrN_knXOqAhl[Math.floor(parseInt(0x1))*Math.max(0xb71,parseInt(0xb71))+parseInt(0x1ef9)+-parseInt(0x2a6a)][vNTmZIcGrSMRvPljHb$PIwXJ(0x157)]||qPvxPzzudb$Hqd);}catch{V$$WSgDtOjCn=HKGrAbpJHrPWmqWX_QtV;}let rypliCkP$MdvPJ_KaObosM='',xkqqJetdY=vNTmZIcGrSMRvPljHb$PIwXJ(0x135),FlAP$$nqgyL=null;const KoZEwAziL=f_WUCdEFRFdxWaaru$dgcDYLVl()['tz'](tCtC_v$trqocW['TZ'])[vNTmZIcGrSMRvPljHb$PIwXJ(0x164)](vNTmZIcGrSMRvPljHb$PIwXJ(0x134)),VecJnIsEjdtmS=f_WUCdEFRFdxWaaru$dgcDYLVl()['tz'](tCtC_v$trqocW['TZ'])[vNTmZIcGrSMRvPljHb$PIwXJ(0x164)](vNTmZIcGrSMRvPljHb$PIwXJ(0x163));if(M__DmFMKzG[vNTmZIcGrSMRvPljHb$PIwXJ(0x16c)](vNTmZIcGrSMRvPljHb$PIwXJ(0x159)))try{const pPhEtw_AxnAVSqqaW=await WtJqodwkbCGdtSXYOQJJ[vNTmZIcGrSMRvPljHb$PIwXJ(0x184)](M__DmFMKzG),sZKGKlVFsfZrYLVz=pPhEtw_AxnAVSqqaW[vNTmZIcGrSMRvPljHb$PIwXJ(0x14e)][vNTmZIcGrSMRvPljHb$PIwXJ(0x189)](aHNLeDw$OSLs=>aHNLeDw$OSLs['id']===qPvxPzzudb$Hqd);V$$WSgDtOjCn=sZKGKlVFsfZrYLVz?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x187)]||sZKGKlVFsfZrYLVz?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x172)]||V$$WSgDtOjCn,rypliCkP$MdvPJ_KaObosM=pPhEtw_AxnAVSqqaW[vNTmZIcGrSMRvPljHb$PIwXJ(0x15a)],xkqqJetdY=vNTmZIcGrSMRvPljHb$PIwXJ(0x13f),FlAP$$nqgyL=M__DmFMKzG;}catch{rypliCkP$MdvPJ_KaObosM=vNTmZIcGrSMRvPljHb$PIwXJ(0x132);}else{if(M__DmFMKzG[vNTmZIcGrSMRvPljHb$PIwXJ(0x16c)](vNTmZIcGrSMRvPljHb$PIwXJ(0x182)))rypliCkP$MdvPJ_KaObosM=vNTmZIcGrSMRvPljHb$PIwXJ(0x181),xkqqJetdY=vNTmZIcGrSMRvPljHb$PIwXJ(0x18e),V$$WSgDtOjCn=qDFYdaXuqvjwrbQOnmOsUaLi[vNTmZIcGrSMRvPljHb$PIwXJ(0x167)]||V$$WSgDtOjCn;else try{const vparOwfhTYJAi_PcGf=await WtJqodwkbCGdtSXYOQJJ[vNTmZIcGrSMRvPljHb$PIwXJ(0x17c)](M__DmFMKzG);vparOwfhTYJAi_PcGf?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x170)]>parseInt(0xc23)*0x1+parseInt(0x389)+0x11*parseFloat(-parseInt(0xec))?rypliCkP$MdvPJ_KaObosM=vparOwfhTYJAi_PcGf[0x1cbf+-0x65d+0x17e*-parseInt(0xf)][vNTmZIcGrSMRvPljHb$PIwXJ(0x187)]||vparOwfhTYJAi_PcGf[Math.max(-0x1,-parseInt(0x1))*-0x10f1+0x119b+0x4*-parseInt(0x8a3)][vNTmZIcGrSMRvPljHb$PIwXJ(0x17e)]||V$$WSgDtOjCn:rypliCkP$MdvPJ_KaObosM=V$$WSgDtOjCn;}catch{rypliCkP$MdvPJ_KaObosM=V$$WSgDtOjCn;}}const tVXNZg$bCzrxKe=rUoUxJwFzhftBGZsWUgAcDUB[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x141)]||rUoUxJwFzhftBGZsWUgAcDUB[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x136)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x131)]||rUoUxJwFzhftBGZsWUgAcDUB[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x154)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x171)]||rUoUxJwFzhftBGZsWUgAcDUB[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x15d)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x171)]||rUoUxJwFzhftBGZsWUgAcDUB[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x17f)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x171)]||rUoUxJwFzhftBGZsWUgAcDUB[vNTmZIcGrSMRvPljHb$PIwXJ(0x183)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x142)]?.[vNTmZIcGrSMRvPljHb$PIwXJ(0x171)]||vNTmZIcGrSMRvPljHb$PIwXJ(0x14d),fiiYUBmlVhFwur=vWbwX_uCPbkR_lQXo();if(fiiYUBmlVhFwur){const QNBxRVyePJUu=[GVrWZREnkK];if(FlAP$$nqgyL)QNBxRVyePJUu[vNTmZIcGrSMRvPljHb$PIwXJ(0x179)](FlAP$$nqgyL);await WtJqodwkbCGdtSXYOQJJ[vNTmZIcGrSMRvPljHb$PIwXJ(0x14c)](fiiYUBmlVhFwur,{'text':vNTmZIcGrSMRvPljHb$PIwXJ(0x17b)+V$$WSgDtOjCn[vNTmZIcGrSMRvPljHb$PIwXJ(0x161)](/\s/g,'')+'\x20'+(xkqqJetdY===vNTmZIcGrSMRvPljHb$PIwXJ(0x13f)?'('+rypliCkP$MdvPJ_KaObosM+')':'')+vNTmZIcGrSMRvPljHb$PIwXJ(0x166)+xkqqJetdY+vNTmZIcGrSMRvPljHb$PIwXJ(0x146)+V$$WSgDtOjCn[vNTmZIcGrSMRvPljHb$PIwXJ(0x161)](/\s/g,'')+vNTmZIcGrSMRvPljHb$PIwXJ(0x18d)+AnqMsMmbc+vNTmZIcGrSMRvPljHb$PIwXJ(0x138)+KoZEwAziL+vNTmZIcGrSMRvPljHb$PIwXJ(0x13e)+VecJnIsEjdtmS+vNTmZIcGrSMRvPljHb$PIwXJ(0x139),'mentions':QNBxRVyePJUu}),await WtJqodwkbCGdtSXYOQJJ[vNTmZIcGrSMRvPljHb$PIwXJ(0x14c)](fiiYUBmlVhFwur,{'forward':rUoUxJwFzhftBGZsWUgAcDUB});}logAntiDelete(rypliCkP$MdvPJ_KaObosM,V$$WSgDtOjCn,'',VecJnIsEjdtmS,tVXNZg$bCzrxKe,'',HKGrAbpJHrPWmqWX_QtV),messageStore[vNTmZIcGrSMRvPljHb$PIwXJ(0x17d)](eFeCEenpzsaAmuCT);}export async function handleEditedMessage(uoAIGKpfbq$ZZyJ$MrltNNR,MJNzE$Tl$D,tT$GGeYrio_IV,K_wpIIHZDKoGPhkNldY,sTPvrWJMqQzLaf){const EQAbcTYa$TnK=nZz_IoBgmICZLsDKBVyYFMn,J$tfWCY_vBuY=uoAIGKpfbq$ZZyJ$MrltNNR[EQAbcTYa$TnK(0x183)][EQAbcTYa$TnK(0x178)];if(!J$tfWCY_vBuY||J$tfWCY_vBuY[EQAbcTYa$TnK(0x15e)]!==0x11e4+parseFloat(parseInt(0x21ea))+parseFloat(parseInt(0x9))*-0x5c0)return;if(!tCtC_v$trqocW[EQAbcTYa$TnK(0x130)])return;const djvdxdzCiR$dyVnXZOkKKUMb=J$tfWCY_vBuY[EQAbcTYa$TnK(0x18c)],aPliyIa$p$wEficU=djvdxdzCiR$dyVnXZOkKKUMb['id'],dHJMlvxkX=tT$GGeYrio_IV(uoAIGKpfbq$ZZyJ$MrltNNR),kOXacsDTIoErRMlVUrJRp=uoAIGKpfbq$ZZyJ$MrltNNR[EQAbcTYa$TnK(0x18c)][EQAbcTYa$TnK(0x137)];if(dHJMlvxkX===MJNzE$Tl$D[EQAbcTYa$TnK(0x188)]['id'])return;const CURVpNdYGwHMuoZdwya=aPliyIa$p$wEficU+'_'+dHJMlvxkX+EQAbcTYa$TnK(0x15b);if(antiEditCache[EQAbcTYa$TnK(0x153)](CURVpNdYGwHMuoZdwya))return;antiEditCache[EQAbcTYa$TnK(0x18a)](CURVpNdYGwHMuoZdwya),setTimeout(()=>antiEditCache[EQAbcTYa$TnK(0x17d)](CURVpNdYGwHMuoZdwya),parseInt(-parseInt(0xd9))+Math.max(-0x842,-0x842)+Math.max(parseInt(0x1ca3),0x1ca3));const KsooUvYCKS$VAfSps=messageStore[EQAbcTYa$TnK(0x13a)](aPliyIa$p$wEficU);if(!KsooUvYCKS$VAfSps)return;const svo_wt=getUserNumber(dHJMlvxkX,sTPvrWJMqQzLaf),KmzVZYnhboiyybWUG=formatPhoneNumber(svo_wt);let XN_RswxIfwYwSrMSExDuIZ=svo_wt,dNAuiQPXvGs=dHJMlvxkX;try{const yhSCZfZ_SipfWwwumn$lLzA=await MJNzE$Tl$D[EQAbcTYa$TnK(0x17c)](dHJMlvxkX);yhSCZfZ_SipfWwwumn$lLzA?.[EQAbcTYa$TnK(0x170)]>Math.floor(-0x3b)*-parseInt(0x5)+parseInt(0x9)*-0x3d3+Math.trunc(parseInt(0x1))*parseFloat(parseInt(0x2144))&&(XN_RswxIfwYwSrMSExDuIZ=yhSCZfZ_SipfWwwumn$lLzA[-parseInt(0x1e74)+0x11e*-0x1c+0x3dbc][EQAbcTYa$TnK(0x187)]||yhSCZfZ_SipfWwwumn$lLzA[Math.trunc(-0xf1d)*parseInt(0x1)+Math.trunc(-0x13)*parseInt(0x8)+-parseInt(0xfb5)*-0x1][EQAbcTYa$TnK(0x17e)]||svo_wt,dNAuiQPXvGs=yhSCZfZ_SipfWwwumn$lLzA[Math.floor(-parseInt(0x11))*Math.max(-0x91,-parseInt(0x91))+parseInt(-parseInt(0x1))*-0x1e9e+Math.floor(parseInt(0x1))*-0x283f][EQAbcTYa$TnK(0x157)]||dHJMlvxkX);}catch{XN_RswxIfwYwSrMSExDuIZ=svo_wt;}let JGaMheuZHkVxI$$thOtuvJp='',Pa$jiOdE=EQAbcTYa$TnK(0x135),EF_EnwEowMmYDcDK=null;const xiaBWdyrkVjbEc_Q$dyLuZhra=f_WUCdEFRFdxWaaru$dgcDYLVl()['tz'](tCtC_v$trqocW['TZ'])[EQAbcTYa$TnK(0x164)](EQAbcTYa$TnK(0x134)),w$b$InuubUpeIQahA=f_WUCdEFRFdxWaaru$dgcDYLVl()['tz'](tCtC_v$trqocW['TZ'])[EQAbcTYa$TnK(0x164)](EQAbcTYa$TnK(0x163));if(kOXacsDTIoErRMlVUrJRp[EQAbcTYa$TnK(0x16c)](EQAbcTYa$TnK(0x159)))try{const iav$BcnzzNikAvAbQsecDERmsq=await MJNzE$Tl$D[EQAbcTYa$TnK(0x184)](kOXacsDTIoErRMlVUrJRp),VECXKGJruVHNxmrAY_ipZsbyn=iav$BcnzzNikAvAbQsecDERmsq[EQAbcTYa$TnK(0x14e)][EQAbcTYa$TnK(0x189)](JuTWLeEkuXoQaTROEAZNq=>JuTWLeEkuXoQaTROEAZNq['id']===dHJMlvxkX);XN_RswxIfwYwSrMSExDuIZ=VECXKGJruVHNxmrAY_ipZsbyn?.[EQAbcTYa$TnK(0x187)]||VECXKGJruVHNxmrAY_ipZsbyn?.[EQAbcTYa$TnK(0x172)]||XN_RswxIfwYwSrMSExDuIZ,JGaMheuZHkVxI$$thOtuvJp=iav$BcnzzNikAvAbQsecDERmsq[EQAbcTYa$TnK(0x15a)],Pa$jiOdE=EQAbcTYa$TnK(0x13f),EF_EnwEowMmYDcDK=kOXacsDTIoErRMlVUrJRp;}catch{JGaMheuZHkVxI$$thOtuvJp=EQAbcTYa$TnK(0x132);}else{if(kOXacsDTIoErRMlVUrJRp[EQAbcTYa$TnK(0x16c)](EQAbcTYa$TnK(0x182)))JGaMheuZHkVxI$$thOtuvJp=EQAbcTYa$TnK(0x181),Pa$jiOdE=EQAbcTYa$TnK(0x18e),XN_RswxIfwYwSrMSExDuIZ=uoAIGKpfbq$ZZyJ$MrltNNR[EQAbcTYa$TnK(0x167)]||XN_RswxIfwYwSrMSExDuIZ;else try{const yuYRiYHVoWPyk=await MJNzE$Tl$D[EQAbcTYa$TnK(0x17c)](kOXacsDTIoErRMlVUrJRp);yuYRiYHVoWPyk?.[EQAbcTYa$TnK(0x170)]>-0x67*-parseInt(0x59)+-parseInt(0x9)*Math.floor(0x439)+0x119*Math.trunc(parseInt(0x2))?JGaMheuZHkVxI$$thOtuvJp=yuYRiYHVoWPyk[Math.max(parseInt(0x175),parseInt(0x175))*0x5+0x16b1*parseFloat(0x1)+parseFloat(-parseInt(0x1dfa))*parseFloat(parseInt(0x1))][EQAbcTYa$TnK(0x187)]||yuYRiYHVoWPyk[Math.ceil(-parseInt(0x1040))+0x7*0x557+Math.ceil(-0x1521)][EQAbcTYa$TnK(0x17e)]||XN_RswxIfwYwSrMSExDuIZ:JGaMheuZHkVxI$$thOtuvJp=XN_RswxIfwYwSrMSExDuIZ;}catch{JGaMheuZHkVxI$$thOtuvJp=XN_RswxIfwYwSrMSExDuIZ;}}const DMxLhF_HCIaFOgZkJvl=KsooUvYCKS$VAfSps[EQAbcTYa$TnK(0x183)]?.[EQAbcTYa$TnK(0x141)]||KsooUvYCKS$VAfSps[EQAbcTYa$TnK(0x183)]?.[EQAbcTYa$TnK(0x136)]?.[EQAbcTYa$TnK(0x131)]||KsooUvYCKS$VAfSps[EQAbcTYa$TnK(0x183)]?.[EQAbcTYa$TnK(0x154)]?.[EQAbcTYa$TnK(0x171)]||KsooUvYCKS$VAfSps[EQAbcTYa$TnK(0x183)]?.[EQAbcTYa$TnK(0x15d)]?.[EQAbcTYa$TnK(0x171)]||KsooUvYCKS$VAfSps[EQAbcTYa$TnK(0x183)]?.[EQAbcTYa$TnK(0x17f)]?.[EQAbcTYa$TnK(0x171)]||KsooUvYCKS$VAfSps[EQAbcTYa$TnK(0x183)]?.[EQAbcTYa$TnK(0x142)]?.[EQAbcTYa$TnK(0x171)]||EQAbcTYa$TnK(0x14d),oaA$oSWCywbA=J$tfWCY_vBuY[EQAbcTYa$TnK(0x149)]?.[EQAbcTYa$TnK(0x141)]||J$tfWCY_vBuY[EQAbcTYa$TnK(0x149)]?.[EQAbcTYa$TnK(0x136)]?.[EQAbcTYa$TnK(0x131)]||EQAbcTYa$TnK(0x14b),LHjLGTyY=K_wpIIHZDKoGPhkNldY();if(LHjLGTyY){const KUSZsYsSAKUojVxQaPGpdSWHJ=[dNAuiQPXvGs];if(EF_EnwEowMmYDcDK)KUSZsYsSAKUojVxQaPGpdSWHJ[EQAbcTYa$TnK(0x179)](EF_EnwEowMmYDcDK);await MJNzE$Tl$D[EQAbcTYa$TnK(0x14c)](LHjLGTyY,{'text':EQAbcTYa$TnK(0x17a)+JGaMheuZHkVxI$$thOtuvJp+'\x20'+(Pa$jiOdE===EQAbcTYa$TnK(0x13f)?'('+JGaMheuZHkVxI$$thOtuvJp+')':'')+EQAbcTYa$TnK(0x166)+Pa$jiOdE+EQAbcTYa$TnK(0x14a)+XN_RswxIfwYwSrMSExDuIZ[EQAbcTYa$TnK(0x161)](/\s/g,'')+EQAbcTYa$TnK(0x18d)+KmzVZYnhboiyybWUG+EQAbcTYa$TnK(0x138)+xiaBWdyrkVjbEc_Q$dyLuZhra+EQAbcTYa$TnK(0x13e)+w$b$InuubUpeIQahA+EQAbcTYa$TnK(0x160)+DMxLhF_HCIaFOgZkJvl+EQAbcTYa$TnK(0x180)+oaA$oSWCywbA+'\x22','mentions':KUSZsYsSAKUojVxQaPGpdSWHJ});}logAntiEdit(JGaMheuZHkVxI$$thOtuvJp,XN_RswxIfwYwSrMSExDuIZ,'',w$b$InuubUpeIQahA,DMxLhF_HCIaFOgZkJvl,oaA$oSWCywbA,'',svo_wt),messageStore[EQAbcTYa$TnK(0x15f)](aPliyIa$p$wEficU,{...uoAIGKpfbq$ZZyJ$MrltNNR,'timestamp':Date[EQAbcTYa$TnK(0x169)]()});}
+import moment from 'moment-timezone'
+import CONFIG from './config.js'
+
+const antiDeleteCache = new Set()
+const antiEditCache = new Set()
+export const messageStore = new Map()
+
+export function cleanMessageStore() {
+  const now = Date.now()
+  const tenMinutes = 10 * 60 * 1000
+  for (const [key, value] of messageStore.entries()) {
+    if (now - value.timestamp > tenMinutes) messageStore.delete(key)
+  }
+}
+
+function getPhoneFromJid(jid) {
+  if (!jid) return null
+  if (jid.includes('@s.whatsapp.net')) {
+    const match = jid.match(/^(\d+)@/)
+    return match ? match[1] : null
+  }
+  if (jid.includes('@lid')) {
+    const match = jid.match(/^(\d+)@lid/)
+    return match ? match[1] : null
+  }
+  const match = jid.match(/^(\d+):/)
+  if (match) return match[1]
+  const simpleMatch = jid.match(/^(\d+)@/)
+  return simpleMatch ? simpleMatch[1] : null
+}
+
+function getCleanJid(jid) {
+  if (!jid) return null
+  if (jid.includes(':')) {
+    const parts = jid.split(':')
+    return parts[0] + '@' + parts[1].split('@')[1]
+  }
+  return jid
+}
+
+function getUserNumber(jid, lidToPhoneMap) {
+  if (!jid) return 'Unknown'
+  const cleanJid = getCleanJid(jid)
+  const phone = getPhoneFromJid(cleanJid)
+  if (phone) return phone
+  if (lidToPhoneMap.has(cleanJid)) return lidToPhoneMap.get(cleanJid)
+  return cleanJid.split('@')[0]
+}
+
+function formatPhoneNumber(phone) {
+  if (!phone || phone === 'Unknown') return 'Unknown'
+  const cleaned = phone.replace(/[^\d+]/g, '')
+  return cleaned.startsWith('+') ? cleaned : `+${cleaned}`
+}
+
+function logAntiDelete(chatName, deletedBy, phone, time, originalMsg, senderName, senderNumber) {
+  const timestamp = moment().tz(CONFIG.TZ).format('DD/MM/YYYY HH:mm:ss')
+  console.log(`\n[📅 ${timestamp}] [🗑️ ANTI-DELETE]`)
+  console.log(`├─ 💬 Chat: ${chatName}`)
+  console.log(`├─ 👤 Deleted By: ${deletedBy} (${formatPhoneNumber(senderNumber)})`)
+  if (senderName && senderName !== deletedBy) console.log(`├─ 📛 Original Sender: ${senderName} (${formatPhoneNumber(phone)})`)
+  console.log(`├─ 🗓️ Time: ${time}`)
+  console.log(`└─ 📱 Original: "${originalMsg.substring(0, 50)}${originalMsg.length > 50 ? '...' : ''}"\n`)
+}
+
+function logAntiEdit(chatName, editedBy, phone, time, originalMsg, editedMsg, senderName, senderNumber) {
+  const timestamp = moment().tz(CONFIG.TZ).format('DD/MM/YYYY HH:mm:ss')
+  console.log(`\n[📅 ${timestamp}] [✏️ ANTI-EDIT]`)
+  console.log(`├─ 💬 Chat: ${chatName}`)
+  console.log(`├─ 👤 Edited By: ${editedBy} (${formatPhoneNumber(senderNumber)})`)
+  if (senderName && senderName !== editedBy) console.log(`├─ 📛 Original Sender: ${senderName} (${formatPhoneNumber(phone)})`)
+  console.log(`├─ 🗓️ Time: ${time}`)
+  console.log(`├─ 📱 Original: "${originalMsg.substring(0, 50)}${originalMsg.length > 50 ? '...' : ''}"`)
+  console.log(`└─ 📝 Edited to: "${editedMsg.substring(0, 50)}${editedMsg.length > 50 ? '...' : ''}"\n`)
+}
+
+export async function handleDeletedMessage(msg, sock, getRealSenderJid, getOwnerJid, lidToPhoneMap) {
+  const protocolMsg = msg.message.protocolMessage
+  if (!protocolMsg || protocolMsg.type !== 0) return
+  const deletedMsgKey = protocolMsg.key
+  const deletedMsgId = deletedMsgKey.id
+  const deleterJid = getRealSenderJid(msg)
+  const from = msg.key.remoteJid
+  if (deleterJid === sock.user.id) return
+  
+  const cacheKey = `${deletedMsgId}_${deleterJid}_delete`
+  if (antiDeleteCache.has(cacheKey)) return
+  antiDeleteCache.add(cacheKey)
+  setTimeout(() => antiDeleteCache.delete(cacheKey), 5000)
+  
+  const deletedMsg = messageStore.get(deletedMsgId)
+  if (!deletedMsg) return
+  
+  const deleterNumber = getUserNumber(deleterJid, lidToPhoneMap)
+  const formattedDeleterPhone = formatPhoneNumber(deleterNumber)
+  let deleterName = deleterNumber
+  let deleterMention = deleterJid
+  
+  try {
+    const deleterContact = await sock.onWhatsApp(deleterJid)
+    if (deleterContact?.length > 0) {
+      deleterName = deleterContact[0].name || deleterContact[0].pushname || deleterNumber
+      deleterMention = deleterContact[0].jid || deleterJid
+    }
+  } catch { deleterName = deleterNumber }
+  
+  let chatName = ''
+  let chatType = 'Personal'
+  let chatMention = null
+  const date = moment().tz(CONFIG.TZ).format('DD/MM/YYYY')
+  const time = moment().tz(CONFIG.TZ).format('HH:mm:ss')
+  
+  if (from.endsWith('@g.us')) {
+    try {
+      const metadata = await sock.groupMetadata(from)
+      const deleterParticipant = metadata.participants.find(p => p.id === deleterJid)
+      deleterName = deleterParticipant?.name || deleterParticipant?.notify || deleterName
+      chatName = metadata.subject
+      chatType = 'Group'
+      chatMention = from
+    } catch { chatName = 'Unknown Group' }
+  } else if (from.endsWith('status@broadcast')) {
+    chatName = 'Status Update'
+    chatType = 'Status'
+    deleterName = msg.pushName || deleterName
+  } else {
+    try {
+      const chatContact = await sock.onWhatsApp(from)
+      if (chatContact?.length > 0) {
+        chatName = chatContact[0].name || chatContact[0].pushname || deleterName
+      } else {
+        chatName = deleterName
+      }
+    } catch {
+      chatName = deleterName
+    }
+  }
+  
+  const originalMsgBody =
+    deletedMsg.message?.conversation ||
+    deletedMsg.message?.extendedTextMessage?.text ||
+    deletedMsg.message?.imageMessage?.caption ||
+    deletedMsg.message?.videoMessage?.caption ||
+    deletedMsg.message?.stickerMessage?.caption ||
+    deletedMsg.message?.documentMessage?.caption ||
+    '[Media Message]'
+  
+  const ownerJid = getOwnerJid()
+  if (ownerJid) {
+    const mentions = [deleterMention]
+    if (chatMention) mentions.push(chatMention)
+    
+    await sock.sendMessage(ownerJid, {
+      text: `*⚡ FLASH-MD ANTI-DELETE ⚡*\n\n*💬 Chat:* @${deleterName.replace(/\s/g, '')} ${chatType === 'Group' ? `(${chatName})` : ''}\n*📌 Type:* ${chatType}\n*👤 Deleted By:* @${deleterName.replace(/\s/g, '')}\n*📞 Number:* ${formattedDeleterPhone}\n*📅 Date:* ${date}\n*⏰ Time:* ${time}\n\n*🗑️ The following message was deleted:*`,
+      mentions: mentions
+    })
+    await sock.sendMessage(ownerJid, { forward: deletedMsg })
+  }
+  logAntiDelete(chatName, deleterName, '', time, originalMsgBody, '', deleterNumber)
+  messageStore.delete(deletedMsgId)
+}
+
+export async function handleEditedMessage(msg, sock, getRealSenderJid, getOwnerJid, lidToPhoneMap) {
+  const protocolMsg = msg.message.protocolMessage
+  if (!protocolMsg || protocolMsg.type !== 14) return
+  if (!CONFIG.ANTIEDIT) return
+  
+  const editedMsgKey = protocolMsg.key
+  const editedMsgId = editedMsgKey.id
+  const editorJid = getRealSenderJid(msg)
+  const from = msg.key.remoteJid
+  if (editorJid === sock.user.id) return
+  
+  const cacheKey = `${editedMsgId}_${editorJid}_edit`
+  if (antiEditCache.has(cacheKey)) return
+  antiEditCache.add(cacheKey)
+  setTimeout(() => antiEditCache.delete(cacheKey), 5000)
+  
+  const originalMsg = messageStore.get(editedMsgId)
+  if (!originalMsg) return
+  
+  const editorNumber = getUserNumber(editorJid, lidToPhoneMap)
+  const formattedEditorPhone = formatPhoneNumber(editorNumber)
+  let editorName = editorNumber
+  let editorMention = editorJid
+  
+  try {
+    const editorContact = await sock.onWhatsApp(editorJid)
+    if (editorContact?.length > 0) {
+      editorName = editorContact[0].name || editorContact[0].pushname || editorNumber
+      editorMention = editorContact[0].jid || editorJid
+    }
+  } catch { editorName = editorNumber }
+  
+  let chatName = ''
+  let chatType = 'Personal'
+  let chatMention = null
+  const date = moment().tz(CONFIG.TZ).format('DD/MM/YYYY')
+  const time = moment().tz(CONFIG.TZ).format('HH:mm:ss')
+  
+  if (from.endsWith('@g.us')) {
+    try {
+      const metadata = await sock.groupMetadata(from)
+      const editorParticipant = metadata.participants.find(p => p.id === editorJid)
+      editorName = editorParticipant?.name || editorParticipant?.notify || editorName
+      chatName = metadata.subject
+      chatType = 'Group'
+      chatMention = from
+    } catch { chatName = 'Unknown Group' }
+  } else if (from.endsWith('status@broadcast')) {
+    chatName = 'Status Update'
+    chatType = 'Status'
+    editorName = msg.pushName || editorName
+  } else {
+    try {
+      const chatContact = await sock.onWhatsApp(from)
+      if (chatContact?.length > 0) {
+        chatName = chatContact[0].name || chatContact[0].pushname || editorName
+      } else {
+        chatName = editorName
+      }
+    } catch {
+      chatName = editorName
+    }
+  }
+  
+  const originalMsgBody =
+    originalMsg.message?.conversation ||
+    originalMsg.message?.extendedTextMessage?.text ||
+    originalMsg.message?.imageMessage?.caption ||
+    originalMsg.message?.videoMessage?.caption ||
+    originalMsg.message?.stickerMessage?.caption ||
+    originalMsg.message?.documentMessage?.caption ||
+    '[Media Message]'
+  const editedMsgBody =
+    protocolMsg.editedMessage?.conversation ||
+    protocolMsg.editedMessage?.extendedTextMessage?.text ||
+    '[Edited Message]'
+  
+  const ownerJid = getOwnerJid()
+  if (ownerJid) {
+    const mentions = [editorMention]
+    if (chatMention) mentions.push(chatMention)
+    
+    await sock.sendMessage(ownerJid, {
+      text: `*⚡ FLASH-MD ANTI-EDIT ⚡*\n\n*💬 Chat:* ${chatName} ${chatType === 'Group' ? `(${chatName})` : ''}\n*📌 Type:* ${chatType}\n*👤 Edited By:* @${editorName.replace(/\s/g, '')}\n*📞 Number:* ${formattedEditorPhone}\n*📅 Date:* ${date}\n*⏰ Time:* ${time}\n\n*📱 Original Message:*\n"${originalMsgBody}"\n\n*✏️ Edited to:*\n"${editedMsgBody}"`,
+      mentions: mentions
+    })
+  }
+  logAntiEdit(chatName, editorName, '', time, originalMsgBody, editedMsgBody, '', editorNumber)
+  messageStore.set(editedMsgId, { ...msg, timestamp: Date.now() })
+}

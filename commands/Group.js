@@ -9,6 +9,9 @@ export const commands = [
     category: 'Group',
     groupOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const online = await getOnlineMembers(sock, from);
         if (!online.length) {
@@ -34,6 +37,9 @@ export const commands = [
     category: 'Group',
     groupOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const metadata = await sock.groupMetadata(from);
         const groupName = metadata.subject;
@@ -71,6 +77,9 @@ export const commands = [
     ownerOnly: true,
     groupOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const args = text.trim().split(/\s+/);
       const [option, action = 'warn'] = args;
       if (!['on', 'off'].includes(option) || !['warn', 'kick', 'delete'].includes(action)) {
@@ -90,6 +99,9 @@ export const commands = [
     category: 'Group',
     groupOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const metadata = await sock.groupMetadata(from);
       const tagList = metadata.participants.map(p => p.id);
       const quoted = msg.message?.extendedTextMessage?.contextInfo;
@@ -130,6 +142,9 @@ export const commands = [
     category: 'Group',
     groupOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const groupInfo = await sock.groupMetadata(from);
         const participants = groupInfo.participants;
@@ -162,6 +177,9 @@ export const commands = [
     ownerOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const newSubject = text;
       if (!newSubject) {
         return sock.sendMessage(from, { text: MESSAGES.group.rename.noName }, { quoted: msg });
@@ -184,6 +202,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.participant;
       const tagged = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0];
       const target = quoted || tagged;
@@ -210,6 +231,9 @@ export const commands = [
     groupOnly: true,
     adminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const args = text.trim().split(/\s+/);
       if (!args[0]) {
         return sock.sendMessage(from, { text: MESSAGES.group.add.noNumber }, { quoted: msg });
@@ -235,6 +259,9 @@ export const commands = [
     groupOnly: true,
     adminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const metadata = await sock.groupMetadata(from);
       const toKick = metadata.participants.filter(p => !p.admin).map(p => p.id);
       await sock.sendMessage(from, { text: MESSAGES.group.kickall.warning }, { quoted: msg });
@@ -255,6 +282,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.participant;
       const tagged = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0];
       const target = quoted || tagged;
@@ -282,6 +312,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.participant;
       const tagged = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0];
       const target = quoted || tagged;
@@ -309,6 +342,9 @@ export const commands = [
     ownerOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const requests = await sock.groupRequestParticipantsList(from);
         if (requests.length === 0) {
@@ -332,6 +368,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const requests = await sock.groupRequestParticipantsList(from);
         if (requests.length === 0) {
@@ -354,6 +393,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const requests = await sock.groupRequestParticipantsList(from);
         if (!requests.length) {
@@ -376,6 +418,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupToggleEphemeral(from, 86400);
         await sock.sendMessage(from, { text: MESSAGES.group.disap.success24 }, { quoted: msg });
@@ -392,6 +437,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupToggleEphemeral(from, 7 * 24 * 3600);
         await sock.sendMessage(from, { text: MESSAGES.group.disap.success7 }, { quoted: msg });
@@ -408,6 +456,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupToggleEphemeral(from, 90 * 24 * 3600);
         await sock.sendMessage(from, { text: MESSAGES.group.disap.success90 }, { quoted: msg });
@@ -424,6 +475,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupToggleEphemeral(from, 0);
         await sock.sendMessage(from, { text: MESSAGES.group.disap.off }, { quoted: msg });
@@ -440,6 +494,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       await sock.sendMessage(from, {
         text: MESSAGES.group.disap.help
       }, { quoted: msg });
@@ -454,6 +511,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       const newDesc = text;
       if (!newDesc) {
         return sock.sendMessage(from, { text: MESSAGES.group.desc.noDesc }, { quoted: msg });
@@ -478,6 +538,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupSettingUpdate(from, 'announcement');
         await sock.sendMessage(from, { text: MESSAGES.group.lock.success }, { quoted: msg });
@@ -496,6 +559,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupSettingUpdate(from, 'not_announcement');
         await sock.sendMessage(from, { text: MESSAGES.group.unlock.success }, { quoted: msg });
@@ -514,6 +580,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const code = await sock.groupInviteCode(from);
         await sock.sendMessage(from, {
@@ -534,6 +603,9 @@ export const commands = [
     adminOnly: true,
     botAdminOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         const newCode = await sock.groupRevokeInvite(from);
         await sock.sendMessage(from, {
@@ -574,6 +646,9 @@ export const commands = [
     groupOnly: true,
     ownerOnly: true,
     execute: async ({ sock, from, text, msg }) => {
+      if (!from.endsWith('@g.us')) {
+        return sock.sendMessage(from, { text: MESSAGES.GROUP_ONLY_MSG }, { quoted: msg });
+      }
       try {
         await sock.groupLeave(from);
       } catch {

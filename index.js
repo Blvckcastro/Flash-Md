@@ -479,7 +479,7 @@ async function start() {
           console.log(`⏩ Skipping duplicate message ID: ${msgId}`)
           continue
         }
-      }
+      } 
       for (const msg of uniqueMessages) {
        // const isStatusBroadcast = msg.key?.remoteJidAlt === 'status@broadcast'
         const isStatusBroadcast = msg.key?.remoteJid === 'status@broadcast' || msg.key?.remoteJidAlt === 'status@broadcast'
